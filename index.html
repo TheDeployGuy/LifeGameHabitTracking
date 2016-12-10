@@ -1,0 +1,72 @@
+<!-- Used to compile and work with angular js -->
+<html ng-app="app1" ng-cloak>
+
+<head>
+  <title> AngularJS: Game of Life </title>
+  <!-- Included when we wait to call AngularJS at the end of the document -->
+  <style>
+  [ng\:cloak], [ng-cloak], .ng-cloak {
+    display: none;
+  }
+
+      table, th , td {
+         border: 1px solid grey;
+         border-collapse: collapse;
+         padding: 5px;
+         text-align: center;
+      }
+
+      table tr:nth-child(odd) {
+         background-color: #f2f2f2;
+      }
+
+      table tr:nth-child(even) {
+         background-color: #ffffff;
+      }
+
+      .done-true {
+      background: #ddd;
+      }
+
+      table{
+        margin-bottom: 20px;
+      }
+  </style>
+</head>
+<body>
+
+  <!-- We are telling Ajs that this is a view! -->
+  <div ng-controller="gameCtrl" id="list">
+      <h3 class="title">Game of Life</h3>
+      <label>How many weeks to do you want to play?</label>
+      <input type="text" ng-model="num" ng-change="updateTotal()"/>
+      <table ng-repeat="week in weeksPlayingGame track by $index">
+        <tr>
+          <th colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
+          <br/>
+        </tr>
+        <tr>
+           <th>Habit</th>
+           <th ng-repeat="x in daysOfWeek">{{x}}</th>
+           <th>Total</th>
+        </tr>
+
+        <tr ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
+          <td>{{ row.habit }}</td>
+          <td ng-repeat="i in daysOfWeek" class="done-{{row.isDone[$index]}}">
+            <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex)"/>
+          </td>
+          <td>{{row.current}}/{{row.max}}</td>
+        </tr>
+      </table>
+  </div>
+
+
+  <!-- Load the AngularJS library -->
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+   <!-- Load the JS Module -->
+   <script src="./js/main.js"></script>
+</body>
+
+
+</html>
