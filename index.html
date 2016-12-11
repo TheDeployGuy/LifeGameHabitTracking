@@ -50,10 +50,10 @@
 <body>
 
   <!-- We are telling Ajs that this is a view! -->
-  <div class="container text-center">
+  <div class="container">
   <div class="row">
     <div >
-  <div ng-controller="gameCtrl" id="list" class="col-md-offset-3 col-md-6">
+  <div ng-controller="gameCtrl" id="list" class="col-md-offset-2 col-md-10 ng-scope">
       <h3 class="title">Game of Life</h3>
       <label>How many weeks to do you want to play?</label>
       <input type="text" ng-model="num" ng-change="updateTotal()"/>
