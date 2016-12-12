@@ -1,5 +1,21 @@
 var app1 = angular.module('app1',[]);
 
+app1.controller('parent',function($scope){
+
+  $scope.weeksPlayingGame = [1];
+  $scope.currentSelected = 1;
+  var maxNumberOfWeeks = 36;
+  // Fill array with values from 0 -> maxNumberOfWeeks
+  $scope.weekOptions = Array.apply(null, {length: maxNumberOfWeeks}).map(Number.call, Number)//new Array(maxNumberOfWeeks);
+  
+  // each time the dropdown is updated this runs
+  $scope.updateTotal = function(){
+    // TO DO : Has to be a better way to do this than filling an array with the current selected number
+    amountOfTablesToDisplay = Array(parseInt($scope.currentSelected));
+    amountOfTablesToDisplay.fill(1);
+    $scope.weeksPlayingGame = amountOfTablesToDisplay;
+  }
+});
 // Example of dependency injection, angularjs sees that we need scope so it injects it
 app1.controller('gameCtrl', function($scope, $filter){
 
@@ -32,23 +48,21 @@ app1.controller('gameCtrl', function($scope, $filter){
     ];
 
     $scope.changeState = function(rowIndex){
-      var done = $filter("filter")($scope.listOfHabits[rowIndex].isDone, true);
-      $scope.listOfHabits[rowIndex].current = done.length *  $scope.listOfHabits[rowIndex].difficulty;
-      if ($scope.listOfHabits[rowIndex].current >= $scope.listOfHabits[rowIndex].goal){
-        if ($scope.listOfHabits[rowIndex].current == $scope.listOfHabits[rowIndex].difficulty*7)
-          $scope.listOfHabits[rowIndex].color = 'gold';
+      var completedDays = $filter("filter")($scope.listOfHabits[rowIndex].isDone, true).length;
+      var habit = $scope.listOfHabits[rowIndex];
+
+      var currentScore = completedDays * habit.difficulty;
+      habit.current = currentScore;
+
+      var maxScore = habit.difficulty*7;
+      if (currentScore >= habit.goal){
+        if (currentScore == maxScore)
+          habit.color = 'gold';
         else
-          $scope.listOfHabits[rowIndex].color = 'green';
+          habit.color = 'green';
       }
       else{
-        $scope.listOfHabits[rowIndex].color = '';
+        habit.color = '';
       }
-    }
-
-    $scope.weeksPlayingGame = [1];
-    $scope.updateTotal = function(){
-      emptyArray = Array(parseInt($scope.num));
-      emptyArray.fill(1);
-      $scope.weeksPlayingGame = emptyArray;
     }
 });
