@@ -13,10 +13,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Included when we wait to call AngularJS at the end of the document -->
+
   <style>
   [ng\:cloak], [ng-cloak], .ng-cloak {
     display: none;
   }
+
+  </style>
+    <!--
 
       table {
         height: 300px;
@@ -45,22 +49,27 @@
         margin-bottom: 20px;
       }
   </style>
-
+ -->
 </head>
 <body>
 
   <!-- We are telling Ajs that this is a view! -->
   <div class="container">
+    <div class="row">
+      <h3 class="title text-center">Game of Life</h3>
+    </div>
   <div class="row">
-    <div >
-  <div ng-controller="gameCtrl" id="list" class="col-md-offset-2 col-md-10 ng-scope">
-      <h3 class="title">Game of Life</h3>
-      <label>How many weeks to do you want to play?</label>
-      <input type="text" ng-model="num" ng-change="updateTotal()"/>
-
-      <table ng-repeat="week in weeksPlayingGame track by $index">
+   <!-- We have a parent controller that controls how many times the table is repeated -->
+  <div ng-controller="parent" id="list" class="col-md-offset-2 col-md-10 ng-scope">
+      <label style="margin-left:200px;">How many weeks to do you want to play?</label>
+      <select class="form-control"  ng-model="currentSelected" ng-change="updateTotal()">
+        <option value="" ng-if="false"></option>
+        <option ng-repeat="week in weekOptions track by $index" ng-hide="$first" value="{{$index}}" >{{$index}}</option>
+      </select>
+      <!-- For each week in weeksPlaying game display a table that has a seperate independent instance of the gameCtrl -->
+      <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" class="table table-hover">
         <tr>
-          <th colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
+          <th scope="row" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
           <br/>
         </tr>
         <tr>
