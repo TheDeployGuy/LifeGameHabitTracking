@@ -19,37 +19,19 @@
     display: none;
   }
 
+  body {
+    height: 100%;
+  }
+
+  table, th, td {
+    text-align: center;
+  }
+
+  table{
+    margin-bottom: 20px;
+  }
+
   </style>
-    <!--
-
-      table {
-        height: 300px;
-        width: 800px;
-      }
-      table, th , td {
-         border: 1px solid grey;
-         border-collapse: collapse;
-         padding: 5px;
-         text-align: center;
-      }
-
-      table tr:nth-child(odd) {
-         background-color: #f2f2f2;
-      }
-
-      table tr:nth-child(even) {
-         background-color: #ffffff;
-      }
-
-      .done-true {
-      background: yellow;
-      }
-
-      table{
-        margin-bottom: 20px;
-      }
-  </style>
- -->
 </head>
 <body>
 
@@ -69,7 +51,7 @@
       <!-- For each week in weeksPlaying game display a table that has a seperate independent instance of the gameCtrl -->
       <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" class="table table-hover">
         <tr>
-          <th scope="row" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
+          <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
           <br/>
         </tr>
         <tr>
@@ -80,7 +62,7 @@
         </tr>
 
         <!-- For habit in our listOfHabits display a row -->
-        <tr ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
+        <tr class="habitRow" ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
           <td>{{ row.habit }}</td>
              <!-- For each day in our daysOfWeek display a td for it, which gives us a habit row with daysOfWeek columns -->
              <!-- class is used to with the isDone for each day of the week to set the color of the table entry-->
@@ -92,6 +74,7 @@
           <td>{{row.current}}/{{row.goal}}</td>
         </tr>
       </table>
+      <hr/>
   </div>
 </div>
 </div>
