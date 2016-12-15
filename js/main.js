@@ -1,13 +1,52 @@
 var app1 = angular.module('app1',[]);
 
+
+displayTable = false;
+displayStartMenu = true;
+
+habitsList = [{
+  habit: 'Default',
+  difficulty: 0,
+  goal: 0
+},{
+  habit: 'Default',
+  difficulty: 0,
+  goal: 0
+},{
+  habit: 'Default',
+  difficulty: 0,
+  goal: 0
+}]
+
+app1.controller('setup',function($scope,$rootScope){
+  $scope.displayStartMenu = true;
+  $scope.createHabits = function(){
+    habitsList = [];
+    habitsList.push(addHabit($scope.myHabit1,$scope.habitDiff1,$scope.habitDays1))
+    habitsList.push(addHabit($scope.myHabit2,$scope.habitDiff2,$scope.habitDays2))
+    habitsList.push(addHabit($scope.myHabit3,$scope.habitDiff3,$scope.habitDays3))
+    displayTable = true;
+    $scope.displayStartMenu = false;
+    console.log(habitsList);
+  }
+
+  function addHabit(habit,difficulty,daysAWeek){
+    return {
+      habit: habit,
+      goal: parseInt(difficulty) * parseInt(daysAWeek),
+      difficulty: difficulty,
+    }
+  }
+});
+
 app1.controller('parent',function($scope){
 
-  $scope.weeksPlayingGame = [1];
-  $scope.currentSelected = 1;
+  $scope.weeksPlayingGame = [];
+  $scope.currentSelected = 0;
   var maxNumberOfWeeks = 36;
   // Fill array with values from 0 -> maxNumberOfWeeks
   $scope.weekOptions = Array.apply(null, {length: maxNumberOfWeeks}).map(Number.call, Number)//new Array(maxNumberOfWeeks);
-  
+
   // each time the dropdown is updated this runs
   $scope.updateTotal = function(){
     // TO DO : Has to be a better way to do this than filling an array with the current selected number
@@ -15,34 +54,38 @@ app1.controller('parent',function($scope){
     amountOfTablesToDisplay.fill(1);
     $scope.weeksPlayingGame = amountOfTablesToDisplay;
   }
+
+  $scope.visible = function(){
+    return displayTable;
+  }
 });
 // Example of dependency injection, angularjs sees that we need scope so it injects it
 app1.controller('gameCtrl', function($scope, $filter){
-
     $scope.daysOfWeek = ['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'];
+    console.log(habitsList);
     $scope.listOfHabits = [
       {
-        habit:'Wakup at sunrise',
+        habit: habitsList[0].habit,
         isDone: [false,false,false,false,false],
-        goal:15,
+        goal: habitsList[0].goal,
         current: 0,
-        difficulty: 5,
+        difficulty: habitsList[0].difficulty,
         color: ''
       },
       {
-        habit:'Work on side project',
+        habit: habitsList[1].habit,
         isDone: [false,false,false,false,false],
-        goal:12,
+        goal: habitsList[1].goal,
         current: 0,
-        difficulty: 3,
+        difficulty: habitsList[1].difficulty,
         color: ''
       },
       {
-        habit:'Go into the office',
+        habit: habitsList[2].habit,
         isDone: [false,false,false,false,false],
-        goal:15,
+        goal: habitsList[2].goal,
         current: 0,
-        difficulty: 5,
+        difficulty: habitsList[2].difficulty,
         color: ''
       }
     ];
