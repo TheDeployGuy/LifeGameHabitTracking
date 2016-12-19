@@ -23,6 +23,18 @@
     height: 100%;
   }
 
+  .container {
+    height: 100%;
+    width: 100%;
+    display: table;
+  }
+
+  .centerme {
+    display: table-cell;
+    height: 100%;
+    vertical-align: middle;
+  }
+
   table, th, td {
     text-align: center;
   }
@@ -41,12 +53,13 @@
 
   <!-- We are telling Ajs that this is a view! -->
   <div class="container">
+  <div class="centerme">
     <div class="row">
-      <h3 class="title text-center">Game of Life</h3>
+      <h3 class="title text-center col-md-offset-1 col-md-10">Game of Life</h3>
     </div>
 
   <div class="row" id="startMenu">
-    <div ng-controller="setup" ng-show="displayStartMenu" class="col-md-offset-2 col-md-10 text-center">
+    <div ng-controller="setup" ng-show="displayStartMenu" class="col-md-offset-1 col-md-10 text-center">
       <label style="">What 3 Habits do you want to track?</label>
       <ul>
         <li>
@@ -70,7 +83,7 @@
   </div>
   <div class="row">
    <!-- We have a parent controller that controls how many times the table is repeated -->
-  <div ng-controller="parent" id="list" ng-show="visible()" class="col-md-offset-2 col-md-10 ng-scope">
+  <div ng-controller="parent" id="list" ng-show="visible()" class="col-md-offset-1 col-md-10 ng-scope">
       <label style="">How many weeks to do you want to play?</label>
       <select class="form-control"  ng-model="currentSelected" ng-change="updateTotal()">
         <option value="" ng-if="false"></option>
@@ -104,6 +117,7 @@
       </table>
       <hr/>
   </div>
+</div>
 </div>
 </div>
 </div>
