@@ -33,6 +33,7 @@
     display: table-cell;
     height: 100%;
     vertical-align: middle;
+    line-height: 40px
   }
 
   table, th, td {
@@ -65,17 +66,17 @@
         <li>
           <input type="text" ng-model="myHabit1" placeholder="Enter 1st Habit">
           <input type="text" ng-model="habitDiff1" placeholder="Enter Habit difficulty">
-          <input type="text" ng-model="habitDays1" placeholder="# Days a week you want to do this habit">
+          <input type="text" ng-model="habitDays1" placeholder="# Days you want to do this habit">
         </li>
         <li>
           <input type="text" ng-model="myHabit2" placeholder="Enter 2nd Habit here">
           <input type="text" ng-model="habitDiff2" placeholder="Enter Habit difficulty">
-          <input type="text" ng-model="habitDays2" placeholder="# Days a week you want to do this habit">
+          <input type="text" ng-model="habitDays2" placeholder="# Days you want to do this habit">
         </li>
         <li>
           <input type="text" ng-model="myHabit3" placeholder="Enter 3rd Habit here">
           <input type="text" ng-model="habitDiff3" placeholder="Enter Habit difficulty">
-          <input type="text" ng-model="habitDays3" placeholder="# Days a week you want to do this habit">
+          <input type="text" ng-model="habitDays3" placeholder="# Days you want to do this habit">
         </li>
       </ul>
           <button ng-click="createHabits()">Submit</button>
@@ -85,10 +86,7 @@
    <!-- We have a parent controller that controls how many times the table is repeated -->
   <div ng-controller="parent" id="list" ng-show="visible()" class="col-md-offset-1 col-md-10 ng-scope">
       <label style="">How many weeks to do you want to play?</label>
-      <select class="form-control"  ng-model="currentSelected" ng-change="updateTotal()">
-        <option value="" ng-if="false"></option>
-        <option ng-repeat="week in weekOptions track by $index" ng-hide="$first" value="{{$index}}" >{{$index}}</option>
-      </select>
+      <select class="form-control" ng-model="currentSelected" ng-change="updateTotal()" ng-options="week for week in weekOptions"></select>
       <!-- For each week in weeksPlaying game display a table that has a seperate independent instance of the gameCtrl -->
       <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" class="table table-hover">
         <tr>
