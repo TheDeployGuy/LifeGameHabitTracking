@@ -3,52 +3,10 @@
 
 <head>
   <title> AngularJS: Game of Life </title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script
-  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-  crossorigin="anonymous"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <!-- Included when we wait to call AngularJS at the end of the document -->
-
-  <style>
-  [ng\:cloak], [ng-cloak], .ng-cloak {
-    display: none;
-  }
-
-  body {
-    height: 100%;
-  }
-
-  .container {
-    height: 100%;
-    width: 100%;
-    display: table;
-  }
-
-  .centerme {
-    display: table-cell;
-    height: 100%;
-    vertical-align: middle;
-    line-height: 40px
-  }
-
-  table, th, td {
-    text-align: center;
-  }
-
-  table{
-    margin-bottom: 20px;
-  }
-
-  #startMenu ul {
-    list-style-type: none;
-  }
-
-  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="main.css"/>
 </head>
 <body>
 
@@ -62,25 +20,52 @@
   <div class="row" id="startMenu">
     <div ng-controller="setup" ng-show="displayStartMenu" class="col-md-offset-1 col-md-10 text-center">
       <label style="">What 3 Habits do you want to track?</label>
-      <ul>
-        <li>
-          <input type="text" ng-model="myHabit1" placeholder="Enter 1st Habit">
-          <input type="text" ng-model="habitDiff1" placeholder="Enter Habit difficulty">
-          <input type="text" ng-model="habitDays1" placeholder="# Days you want to do this habit">
-        </li>
-        <li>
-          <input type="text" ng-model="myHabit2" placeholder="Enter 2nd Habit here">
-          <input type="text" ng-model="habitDiff2" placeholder="Enter Habit difficulty">
-          <input type="text" ng-model="habitDays2" placeholder="# Days you want to do this habit">
-        </li>
-        <li>
-          <input type="text" ng-model="myHabit3" placeholder="Enter 3rd Habit here">
-          <input type="text" ng-model="habitDiff3" placeholder="Enter Habit difficulty">
-          <input type="text" ng-model="habitDays3" placeholder="# Days you want to do this habit">
-        </li>
-      </ul>
-          <button ng-click="createHabits()">Submit</button>
+      <hr>
+      <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
+      <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
+        <ul>
+          <li>
+            <label>1st Habit: </label>
+            <input type="text" name="habit1" ng-model="myHabit1" placeholder="Enter 1st Habit" required>
+            <input type="number" ng-max="5" ng-min="1" ng-model="habitDiff1" name="diff1" placeholder="Enter Habit difficulty" required>
+            <input type="number" ng-max="7" ng-min="1" ng-model="habitDays1" name="days1" placeholder="#Days to do this habit" required>
+
+            <div ng-messages="habitForm.habit1.$error" ng-if="habitForm.habit1.$touched || habitForm.$submitted">
+              <p ng-message="required" style="display:inline">You must enter a 1st Habit</p>
+            </div>
+            <div ng-messages="habitForm.diff1.$error" ng-if="habitForm.diff1.$touched || habitForm.$submitted">
+              <p ng-message="required">You must enter a habit difficulty</p>
+              <p ng-message="min">Min Habit difficulty is 1</p>
+              <p ng-message="max">Max Habit difficulty is 5</p>
+            </div>
+            <div ng-messages="habitForm.days1.$error" ng-if="habitForm.days1.$touched || habitForm.$submitted">
+              <p ng-message="required">You must enter amount of days you want to track habit</p>
+              <p ng-message="min">Min Days to track weekly is 1</p>
+              <p ng-message="max">Max Days to track weekly is 7</p>
+            </div>
+          </li>
+          <hr>
+          <li>
+            <label>2nd Habit: </label>
+            <input type="text" ng-model="myHabit2" placeholder="Enter 2nd Habit">
+            <input type="text" ng-model="habitDiff2" placeholder="Enter Habit difficulty">
+            <input type="text" ng-model="habitDays2" placeholder="#Days to do this habit">
+          </li>
+          <hr>
+          <li>
+            <label>3rd Habit: </label>
+            <input type="text" ng-model="myHabit3" placeholder="Enter 3rd Habit">
+            <input type="text" ng-model="habitDiff3" placeholder="Enter Habit difficulty">
+            <input type="text" ng-model="habitDays3" placeholder="#Days to do this habit">
+          </li>
+          <hr>
+        </ul>
+          <div class="form-group">
+            <button type="submit">Submit</button>
+          </div>
     </div>
+    </form>
+  </div>
   </div>
   <div class="row">
    <!-- We have a parent controller that controls how many times the table is repeated -->
@@ -99,10 +84,9 @@
            <th ng-repeat="x in daysOfWeek">{{x}}</th>
            <th>Total</th>
         </tr>
-
         <!-- For habit in our listOfHabits display a row -->
         <tr class="habitRow" ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
-          <td>{{ row.habit }}</td>
+          <td>{{row.habit}}</td>
              <!-- For each day in our daysOfWeek display a td for it, which gives us a habit row with daysOfWeek columns -->
              <!-- class is used to with the isDone for each day of the week to set the color of the table entry-->
              <!-- We set the background-color to the color for that specific row which will change green when max is reached -->
@@ -123,9 +107,14 @@
 
   <!-- Load the AngularJS library -->
    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+   <!-- load ngmessages -->
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+   integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
    <!-- Load the JS Module -->
    <script src="./js/main.js"></script>
 </body>
-
-
 </html>

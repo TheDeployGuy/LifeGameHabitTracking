@@ -1,0 +1,32 @@
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none;
+}
+
+body {
+  height: 100%;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: table;
+}
+
+.centerme {
+  display: table-cell;
+  height: 100%;
+  vertical-align: middle;
+  line-height: 40px
+}
+
+table, th, td {
+  text-align: center;
+}
+
+table{
+  margin-bottom: 20px;
+}
+
+#startMenu ul {
+  list-style-type: none;
+}
