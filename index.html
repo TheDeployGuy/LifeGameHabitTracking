@@ -10,6 +10,44 @@
 </head>
 <body>
 
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+          <div class="navbar-header page-scroll">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand page-scroll" href="#page-top">Game of Life - Way to master your Habits</a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse navbar-ex1-collapse">
+              <ul class="nav navbar-nav">
+                  <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                  <li class="hidden">
+                      <a class="page-scroll" href="#page-top"></a>
+                  </li>
+                  <li>
+                      <a class="page-scroll" href="#about">About</a>
+                  </li>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                  <li>
+                      <a class="page-scroll" href="#login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                  </li>
+                  <li>
+                      <a class="page-scroll" href="#signup"><span class="glyphicon glyphicon-user"></span> Signup</a>
+                  </li>
+              </ul>
+          </div>
+          <!-- /.navbar-collapse -->
+      </div>
+      <!-- /.container -->
+  </nav>
+
   <!-- We are telling Ajs that this is a view! -->
   <div class="container">
   <div class="centerme">
@@ -107,17 +145,22 @@
       <!-- For each week in weeksPlaying game display a table that has a seperate independent instance of the gameCtrl -->
       <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" class="table table-hover">
         <tr>
+          <th style="border-top:none;border-bottom:none"></th>
           <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
           <br/>
         </tr>
         <tr>
+           <th style="border-top:none;border-bottom:none"></th>
            <th>Habit</th>
              <!-- For each day in our daysOfWeek display a table heading -->
            <th ng-repeat="x in daysOfWeek">{{x}}</th>
            <th>Total</th>
+
         </tr>
         <!-- For habit in our listOfHabits display a row -->
         <tr class="habitRow" ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
+          <td ng-if="rowIndex != 1" style="border-top:none"></td>
+          <td ng-if="rowIndex == 1" style="border-top:none"><a class="btn btn-primary">Prev</a></td>
           <td>{{row.habit}}</td>
              <!-- For each day in our daysOfWeek display a td for it, which gives us a habit row with daysOfWeek columns -->
              <!-- class is used to with the isDone for each day of the week to set the color of the table entry-->
@@ -127,12 +170,12 @@
             <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex)"/>
           </td>
           <td>{{row.current}}/{{row.goal}}</td>
+          <td ng-if="rowIndex == 1" style="border-top:none"><a class="btn btn-primary">Next</a></td>
         </tr>
       </table>
       <hr/>
   </div>
-</div>
-</div>
+  </div>
 </div>
 </div>
 
