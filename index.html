@@ -139,28 +139,27 @@
   </div>
   <div class="row">
    <!-- We have a parent controller that controls how many times the table is repeated -->
-  <div ng-controller="parent" id="list" ng-show="visible()" class="col-md-offset-1 col-md-10 ng-scope">
+  <div ng-controller="parent" id="list" ng-show="isVisible()" class="ng-scope">
+    <div class="col-md-1">
+      <a class="btn btn-primary" ng-click="decrementWeek()"><</a>
+    </div>
+    <div class="col-md-10">
       <label style="">How many weeks to do you want to play?</label>
       <select class="form-control" ng-model="currentSelected" ng-change="updateTotal()" ng-options="week for week in weekOptions"></select>
       <!-- For each week in weeksPlaying game display a table that has a seperate independent instance of the gameCtrl -->
       <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" class="table table-hover">
         <tr>
-          <th style="border-top:none;border-bottom:none"></th>
           <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
           <br/>
         </tr>
         <tr>
-           <th style="border-top:none;border-bottom:none"></th>
            <th>Habit</th>
              <!-- For each day in our daysOfWeek display a table heading -->
            <th ng-repeat="x in daysOfWeek">{{x}}</th>
            <th>Total</th>
-
         </tr>
         <!-- For habit in our listOfHabits display a row -->
         <tr class="habitRow" ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
-          <td ng-if="rowIndex != 1" style="border-top:none"></td>
-          <td ng-if="rowIndex == 1" style="border-top:none"><a class="btn btn-primary">Prev</a></td>
           <td>{{row.habit}}</td>
              <!-- For each day in our daysOfWeek display a td for it, which gives us a habit row with daysOfWeek columns -->
              <!-- class is used to with the isDone for each day of the week to set the color of the table entry-->
@@ -170,11 +169,15 @@
             <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex)"/>
           </td>
           <td>{{row.current}}/{{row.goal}}</td>
-          <td ng-if="rowIndex == 1" style="border-top:none"><a class="btn btn-primary">Next</a></td>
         </tr>
       </table>
       <hr/>
+    </div>
+    <div class="col-md-1">
+      <a class="btn btn-primary" ng-click="incrementWeek()">></a>
+    </div>
   </div>
+
   </div>
 </div>
 </div>

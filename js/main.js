@@ -27,7 +27,6 @@ app1.controller('setup',function($scope,$rootScope){
     habitsList.push(addHabit($scope.myHabit3,$scope.habitDiff3,$scope.habitDays3))
     displayTable = true;
     $scope.displayStartMenu = false;
-    console.log(habitsList);
   }
 
   function addHabit(habit,difficulty,daysAWeek){
@@ -47,6 +46,14 @@ app1.controller('parent',function($scope){
   // Fill array with values from 0 -> maxNumberOfWeeks
   $scope.weekOptions = Array.apply(null, {length: maxNumberOfWeeks}).map(Number.call, Number)//new Array(maxNumberOfWeeks);
 
+  $scope.incrementWeek = function(){
+    $scope.weeksPlayingGame.push(1);
+  }
+
+  $scope.decrementWeek = function(){
+    $scope.weeksPlayingGame.pop();
+  }
+
   // each time the dropdown is updated this runs
   $scope.updateTotal = function(){
     // TO DO : Has to be a better way to do this than filling an array with the current selected number
@@ -55,14 +62,13 @@ app1.controller('parent',function($scope){
     $scope.weeksPlayingGame = amountOfTablesToDisplay;
   }
 
-  $scope.visible = function(){
+  $scope.isVisible = function(){
     return displayTable;
   }
 });
 // Example of dependency injection, angularjs sees that we need scope so it injects it
 app1.controller('gameCtrl', function($scope, $filter){
     $scope.daysOfWeek = ['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'];
-    console.log(habitsList);
     $scope.listOfHabits = [
       {
         habit: habitsList[0].habit,
