@@ -49,7 +49,7 @@ app1.controller('parent',function($scope){
   $scope.incrementWeek = function(){
     $scope.weeksPlayingGame.push(1);
   }
-
+  
   $scope.decrementWeek = function(){
     $scope.weeksPlayingGame.pop();
   }
