@@ -141,11 +141,12 @@
    <!-- We have a parent controller that controls how many times the table is repeated -->
   <div ng-controller="parent" id="list" ng-show="isVisible()" class="ng-scope">
     <div class="col-md-1">
-      <a class="btn btn-primary" style="margin-top:240px" ng-click="decrementWeek()">-</a>
+      <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
     </div>
     <div class="col-md-10">
-      <label style="">How many weeks to do you want to play?</label>
+    <!--  <label style="">How many weeks to do you want to play?</label>
       <select class="form-control" ng-model="currentSelected" ng-change="updateTotal()" ng-options="week for week in weekOptions"></select>
+      l -->
       <!-- For each week in weeksPlaying game display a table that has a seperate independent instance of the gameCtrl -->
       <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" id="{{$index}}" class="table table-hover">
         <tr>
@@ -174,7 +175,7 @@
       <hr/>
     </div>
     <div class="col-md-1">
-      <a class="btn btn-primary" style="margin-top:240px" ng-click="incrementWeek()">+</a>
+      <a class="btn btn-primary buttons" ng-click="incrementWeek()">+</a>
     </div>
   </div>
 

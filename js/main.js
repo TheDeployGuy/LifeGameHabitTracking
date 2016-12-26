@@ -40,6 +40,7 @@ app1.controller('setup',function($scope,$rootScope){
 
 app1.controller('parent',function($scope){
 
+  var initialIncrement = 0;
   $scope.weeksPlayingGame = [];
   $scope.currentSelected = 0;
   var maxNumberOfWeeks = 36;
@@ -49,9 +50,10 @@ app1.controller('parent',function($scope){
   $scope.incrementWeek = function(){
     $scope.weeksPlayingGame.push(1);
   }
-  
+
   $scope.decrementWeek = function(){
     $scope.weeksPlayingGame.pop();
+
   }
 
   // each time the dropdown is updated this runs
