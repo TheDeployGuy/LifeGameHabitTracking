@@ -60,6 +60,18 @@
       <label style="">What 3 Habits do you want to track?</label>
       <hr>
       <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
+      <div class="form-group" ng-controller="menu">
+        <ul>
+          <li  ng-repeat="h in totalHabits track by $index">
+            <label>Habit {{h}}</label>
+            <input type="text" name="habit{{h}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{h}}" required>
+            <input type="number" name="diff{{h}}"  ng-model="diffModels[$h]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
+            <input type="number" name="days{{h}}" ng-model="daysModels[$h]" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
+          <hr/>
+          </li>
+
+        </ul>
+      </div>
       <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
         <ul>
           <!-- TO DO: Check if angular has easier way for this ng-repeat -->
@@ -144,10 +156,7 @@
       <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
     </div>
     <div class="col-md-10">
-    <!--  <label style="">How many weeks to do you want to play?</label>
-      <select class="form-control" ng-model="currentSelected" ng-change="updateTotal()" ng-options="week for week in weekOptions"></select>
-      l -->
-      <!-- For each week in weeksPlaying game display a table that has a seperate independent instance of the gameCtrl -->
+      <p id="intro" class="text-center"> To get started lets add a week to track by clicking the + button</p>
       <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" id="{{$index}}" class="table table-hover">
         <tr>
           <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
@@ -183,7 +192,8 @@
 </div>
 </div>
 
-
+</body>
+<footer>
   <!-- Load the AngularJS library -->
    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
    <!-- load ngmessages -->
@@ -195,5 +205,5 @@
 
    <!-- Load the JS Module -->
    <script src="./js/main.js"></script>
-</body>
+</footer>
 </html>

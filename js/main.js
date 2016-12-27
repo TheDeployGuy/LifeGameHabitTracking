@@ -18,6 +18,13 @@ habitsList = [{
   goal: 0
 }]
 
+app1.controller('menu', function($scope){
+  $scope.totalHabits = [1,2,3];
+  $scope.habitModels = [];
+  $scope.diffModels = {};
+  $scope.daysModels = {};
+});
+
 app1.controller('setup',function($scope,$rootScope){
   $scope.displayStartMenu = true;
   $scope.createHabits = function(){
@@ -48,6 +55,7 @@ app1.controller('parent',function($scope){
   $scope.weekOptions = Array.apply(null, {length: maxNumberOfWeeks}).map(Number.call, Number)//new Array(maxNumberOfWeeks);
 
   $scope.incrementWeek = function(){
+    $('#intro').hide();
     $scope.weeksPlayingGame.push(1);
   }
 
