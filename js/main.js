@@ -26,8 +26,10 @@ app1.controller('menu', function($scope){
 });
 
 app1.controller('setup',function($scope,$rootScope){
+  $scope.habitModels = {};
   $scope.displayStartMenu = true;
   $scope.createHabits = function(){
+    console.log($scope.habitModels);
     habitsList = [];
     habitsList.push(addHabit($scope.myHabit1,$scope.habitDiff1,$scope.habitDays1))
     habitsList.push(addHabit($scope.myHabit2,$scope.habitDiff2,$scope.habitDays2))

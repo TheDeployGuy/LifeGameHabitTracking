@@ -62,11 +62,11 @@
       <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
       <div class="form-group" ng-controller="menu">
         <ul>
-          <li  ng-repeat="h in totalHabits track by $index">
-            <label>Habit {{h}}</label>
-            <input type="text" name="habit{{h}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{h}}" required>
-            <input type="number" name="diff{{h}}"  ng-model="diffModels[$h]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
-            <input type="number" name="days{{h}}" ng-model="daysModels[$h]" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
+          <li  ng-repeat="val in totalHabits track by $index">
+            <label>Habit {{val}}</label>
+            <input type="text" name="habit{{val}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{val}}">
+            <input type="number" name="diff{{val}}"  ng-model="diffModels[$index]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty">
+            <input type="number" name="days{{val}}" ng-model="daysModels[$index]" ng-max="7" ng-min="1" placeholder="#Days to do this habit">
           <hr/>
           </li>
 
