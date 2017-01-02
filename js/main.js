@@ -16,24 +16,21 @@ habitsList = [{
   habit: 'Default',
   difficulty: 0,
   goal: 0
-}]
-
-app1.controller('menu', function($scope){
-  $scope.totalHabits = [1,2,3];
-  $scope.habitModels = [];
-  $scope.diffModels = {};
-  $scope.daysModels = {};
-});
+}];
 
 app1.controller('setup',function($scope,$rootScope){
-  $scope.habitModels = {};
+  $scope.totalHabits = [1,2,3];
+  $scope.habitModels = [];
+  $scope.diffModels = [];
+  $scope.daysModels = [];
+  console.log($scope.habitModels);
   $scope.displayStartMenu = true;
   $scope.createHabits = function(){
     console.log($scope.habitModels);
     habitsList = [];
-    habitsList.push(addHabit($scope.myHabit1,$scope.habitDiff1,$scope.habitDays1))
-    habitsList.push(addHabit($scope.myHabit2,$scope.habitDiff2,$scope.habitDays2))
-    habitsList.push(addHabit($scope.myHabit3,$scope.habitDiff3,$scope.habitDays3))
+    habitsList.push(addHabit($scope.habitModels[0],$scope.diffModels[0],$scope.daysModels[0]))
+    habitsList.push(addHabit($scope.habitModels[1],$scope.diffModels[1],$scope.daysModels[1]))
+    habitsList.push(addHabit($scope.habitModels[2],$scope.diffModels[2],$scope.daysModels[2]))
     displayTable = true;
     $scope.displayStartMenu = false;
   }

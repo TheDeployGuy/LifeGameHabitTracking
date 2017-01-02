@@ -60,31 +60,24 @@
       <label style="">What 3 Habits do you want to track?</label>
       <hr>
       <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
-      <div class="form-group" ng-controller="menu">
+      <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
         <ul>
-          <li  ng-repeat="val in totalHabits track by $index">
+          <li ng-repeat="val in totalHabits">
             <label>Habit {{val}}</label>
-            <input type="text" name="habit{{val}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{val}}">
+            <input type="text" name="habit{{val}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{val}}" required>
             <input type="number" name="diff{{val}}"  ng-model="diffModels[$index]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty">
             <input type="number" name="days{{val}}" ng-model="daysModels[$index]" ng-max="7" ng-min="1" placeholder="#Days to do this habit">
           <hr/>
           </li>
-
+          <li>{{habitModels}} {{diffModels}} {{daysModels}}</li>
         </ul>
-      </div>
-      <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
         <ul>
           <!-- TO DO: Check if angular has easier way for this ng-repeat -->
           <li>
-            <label>1st Habit: </label>
-            <input type="text" name="habit1" ng-model="myHabit1" placeholder="Enter 1st Habit" required>
-            <input type="number" name="diff1"  ng-model="habitDiff1" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
-            <input type="number" name="days1" ng-model="habitDays1" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
-
-            <!-- Using messages.js to help us with clean error handling -->
             <div ng-messages="habitForm.habit1.$error" ng-if="habitForm.habit1.$touched || habitForm.$submitted">
               <p ng-message="required">You must enter a 1st Habit</p>
             </div>
+            <!-- Using messages.js to help us with clean error handling -->
             <div ng-messages="habitForm.diff1.$error" ng-if="habitForm.diff1.$touched || habitForm.$submitted">
               <p ng-message="required">You must enter a habit difficulty</p>
               <p ng-message="min">Min Habit difficulty is 1</p>
@@ -98,11 +91,6 @@
           </li>
           <hr>
           <li>
-            <label>2nd Habit: </label>
-            <input type="text" name="habit2" ng-model="myHabit2" placeholder="Enter 2nd Habit" required>
-            <input type="number" name="diff2" ng-model="habitDiff2" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
-            <input type="number" name="days2" ng-model="habitDays2" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
-
             <!-- Using messages.js to help us with clean error handling -->
             <div ng-messages="habitForm.habit2.$error" ng-if="habitForm.habit2.$touched || habitForm.$submitted">
               <p ng-message="required">You must enter a 2nd Habit</p>
@@ -120,11 +108,6 @@
           </li>
           <hr>
           <li>
-            <label>3rd Habit: </label>
-            <input type="text" name="habit3" ng-model="myHabit3" placeholder="Enter 3rd Habit" required="">
-            <input type="number" name="diff3" ng-model="habitDiff3" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
-            <input type="number" name="days3" ng-model="habitDays3" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
-
             <!-- Using messages.js to help us with clean error handling -->
             <div ng-messages="habitForm.habit3.$error" ng-if="habitForm.habit3.$touched || habitForm.$submitted">
               <p ng-message="required">You must enter a 3rd Habit</p>
