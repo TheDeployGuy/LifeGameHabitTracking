@@ -50,129 +50,86 @@
 
   <!-- We are telling Ajs that this is a view! -->
   <div class="container">
-  <div class="centerme">
-    <div class="row">
-      <h3 class="title text-center col-md-offset-1 col-md-10">Game of Life</h3>
-    </div>
+    <div class="centerme">
+        <div class="row">
+          <h3 class="title text-center col-md-offset-1 col-md-10">Game of Life</h3>
+        </div>
 
-  <div class="row" id="startMenu">
-    <div ng-controller="setup" ng-show="displayStartMenu" class="col-md-offset-1 col-md-10 text-center">
-      <label style="">What 3 Habits do you want to track?</label>
-      <hr>
-      <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
-      <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
-        <ul>
-          <li ng-repeat="val in totalHabits">
-            <label>Habit {{val}}</label>
-            <input type="text" name="habit{{val}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{val}}" required>
-            <input type="number" name="diff{{val}}"  ng-model="diffModels[$index]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty">
-            <input type="number" name="days{{val}}" ng-model="daysModels[$index]" ng-max="7" ng-min="1" placeholder="#Days to do this habit">
-          <hr/>
-          </li>
-          <li>{{habitModels}} {{diffModels}} {{daysModels}}</li>
-        </ul>
-        <ul>
-          <!-- TO DO: Check if angular has easier way for this ng-repeat -->
-          <li>
-            <div ng-messages="habitForm.habit1.$error" ng-if="habitForm.habit1.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter a 1st Habit</p>
-            </div>
-            <!-- Using messages.js to help us with clean error handling -->
-            <div ng-messages="habitForm.diff1.$error" ng-if="habitForm.diff1.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter a habit difficulty</p>
-              <p ng-message="min">Min Habit difficulty is 1</p>
-              <p ng-message="max">Max Habit difficulty is 5</p>
-            </div>
-            <div ng-messages="habitForm.days1.$error" ng-if="habitForm.days1.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter amount of days you want to track habit</p>
-              <p ng-message="min">Min Days to track weekly is 1</p>
-              <p ng-message="max">Max Days to track weekly is 7</p>
-            </div>
-          </li>
+      <div class="row" id="startMenu">
+        <div ng-controller="setup" ng-show="displayStartMenu" class="col-md-offset-1 col-md-10 text-center">
+          <label style="">What 3 Habits do you want to track?</label>
           <hr>
-          <li>
-            <!-- Using messages.js to help us with clean error handling -->
-            <div ng-messages="habitForm.habit2.$error" ng-if="habitForm.habit2.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter a 2nd Habit</p>
+          <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
+          <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
+            <ul>
+              <li ng-repeat="val in totalHabits">
+                <label>Habit {{val}}</label>
+                <input type="text" name="habit{{val}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{val}}" required>
+                <input type="number" name="diff{{val}}"  ng-model="diffModels[$index]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
+                <input type="number" name="days{{val}}" ng-model="daysModels[$index]" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
+                <div ng-messages="habitForm['habit' + val].$error" ng-if="habitForm['habit' + val].$touched || habitForm.$submitted">
+                  <p ng-message="required">You must enter a {{val}} Habit</p>
+                </div>
+                <div ng-messages="habitForm['diff' + val].$error" ng-if="habitForm['diff' + val].$touched || habitForm.$submitted">
+                  <p ng-message="required">You must enter a habit difficulty</p>
+                  <p ng-message="min">Min Habit difficulty is 1</p>
+                  <p ng-message="max">Max Habit difficulty is 5</p>
+                </div>
+                <div ng-messages="habitForm['days' + val].$error" ng-if="habitForm['days' + val].$touched || habitForm.$submitted">
+                  <p ng-message="required">You must enter amount of days you want to track habit</p>
+                  <p ng-message="min">Min Days to track weekly is 1</p>
+                  <p ng-message="max">Max Days to track weekly is 7</p>
+                </div>
+              <hr/>
+              </li>
+            </ul>
+            <div class="form-group">
+              <button class="btn btn-success" type="submit">Submit</button>
             </div>
-            <div ng-messages="habitForm.diff2.$error" ng-if="habitForm.diff2.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter a habit difficulty</p>
-              <p ng-message="min">Min Habit difficulty is 1</p>
-              <p ng-message="max">Max Habit difficulty is 5</p>
-            </div>
-            <div ng-messages="habitForm.days2.$error" ng-if="habitForm.days2.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter amount of days you want to track habit</p>
-              <p ng-message="min">Min Days to track weekly is 1</p>
-              <p ng-message="max">Max Days to track weekly is 7</p>
-            </div>
-          </li>
-          <hr>
-          <li>
-            <!-- Using messages.js to help us with clean error handling -->
-            <div ng-messages="habitForm.habit3.$error" ng-if="habitForm.habit3.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter a 3rd Habit</p>
-            </div>
-            <div ng-messages="habitForm.diff3.$error" ng-if="habitForm.diff3.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter a habit difficulty</p>
-              <p ng-message="min">Min Habit difficulty is 1</p>
-              <p ng-message="max">Max Habit difficulty is 5</p>
-            </div>
-            <div ng-messages="habitForm.days3.$error" ng-if="habitForm.days3.$touched || habitForm.$submitted">
-              <p ng-message="required">You must enter amount of days you want to track habit</p>
-              <p ng-message="min">Min Days to track weekly is 1</p>
-              <p ng-message="max">Max Days to track weekly is 7</p>
-            </div>
-          </li>
-          <hr>
-        </ul>
-          <div class="form-group">
-            <button class="btn btn-success" type="submit">Submit</button>
+        </div>
+        </form>
+      </div>
+      </div>
+      <div class="row">
+         <!-- We have a parent controller that controls how many times the table is repeated -->
+        <div ng-controller="parent" id="list" ng-show="isVisible()" class="ng-scope">
+          <div class="col-md-1">
+            <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
           </div>
-    </div>
-    </form>
+          <div class="col-md-10">
+            <p id="intro" class="text-center"> To get started lets add a week to track by clicking the + button</p>
+            <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" id="{{$index}}" class="table table-hover">
+              <tr>
+                <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
+                <br/>
+              </tr>
+              <tr>
+                 <th>Habit</th>
+                   <!-- For each day in our daysOfWeek display a table heading -->
+                 <th ng-repeat="x in daysOfWeek">{{x}}</th>
+                 <th>Total</th>
+              </tr>
+              <!-- For habit in our listOfHabits display a row -->
+              <tr class="habitRow" ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
+                <td>{{row.habit}}</td>
+                   <!-- For each day in our daysOfWeek display a td for it, which gives us a habit row with daysOfWeek columns -->
+                   <!-- class is used to with the isDone for each day of the week to set the color of the table entry-->
+                   <!-- We set the background-color to the color for that specific row which will change green when max is reached -->
+                <td ng-repeat="i in daysOfWeek" class="done-{{row.isDone[$index]}}" ng-style="{'background-color': row.color}">
+                  <!-- When the checkbox is changesState/clicked we pass in the index of the habit we are on(rowIndex) so the current total for that row can be set and to check if they have reached their weekly goal -->
+                  <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex)"/>
+                </td>
+                <td>{{row.current}}/{{row.goal}}</td>
+              </tr>
+            </table>
+            <hr/>
+          </div>
+          <div class="col-md-1">
+            <a class="btn btn-primary buttons" ng-click="incrementWeek()">+</a>
+          </div>
+        </div>
+      </div>
   </div>
-  </div>
-  <div class="row">
-   <!-- We have a parent controller that controls how many times the table is repeated -->
-  <div ng-controller="parent" id="list" ng-show="isVisible()" class="ng-scope">
-    <div class="col-md-1">
-      <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
-    </div>
-    <div class="col-md-10">
-      <p id="intro" class="text-center"> To get started lets add a week to track by clicking the + button</p>
-      <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" id="{{$index}}" class="table table-hover">
-        <tr>
-          <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
-          <br/>
-        </tr>
-        <tr>
-           <th>Habit</th>
-             <!-- For each day in our daysOfWeek display a table heading -->
-           <th ng-repeat="x in daysOfWeek">{{x}}</th>
-           <th>Total</th>
-        </tr>
-        <!-- For habit in our listOfHabits display a row -->
-        <tr class="habitRow" ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
-          <td>{{row.habit}}</td>
-             <!-- For each day in our daysOfWeek display a td for it, which gives us a habit row with daysOfWeek columns -->
-             <!-- class is used to with the isDone for each day of the week to set the color of the table entry-->
-             <!-- We set the background-color to the color for that specific row which will change green when max is reached -->
-          <td ng-repeat="i in daysOfWeek" class="done-{{row.isDone[$index]}}" ng-style="{'background-color': row.color}">
-            <!-- When the checkbox is changesState/clicked we pass in the index of the habit we are on(rowIndex) so the current total for that row can be set and to check if they have reached their weekly goal -->
-            <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex)"/>
-          </td>
-          <td>{{row.current}}/{{row.goal}}</td>
-        </tr>
-      </table>
-      <hr/>
-    </div>
-    <div class="col-md-1">
-      <a class="btn btn-primary buttons" ng-click="incrementWeek()">+</a>
-    </div>
-  </div>
-
-  </div>
-</div>
 </div>
 
 </body>
@@ -183,9 +140,7 @@
    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
-   integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
+   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
    <!-- Load the JS Module -->
    <script src="./js/main.js"></script>
 </footer>
