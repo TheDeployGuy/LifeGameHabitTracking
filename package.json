@@ -1,0 +1,14 @@
+{
+  "name": "life_habit_tracking_website",
+  "version": "1.0.0",
+  "description": "Game of Life Habit Tracking",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "dependencies": {
+    "connect": "*",
+    "express": "^4.13.4",
+    "pug": "*"
+  }
+}
