@@ -9,6 +9,8 @@
   "dependencies": {
     "connect": "*",
     "express": "^4.13.4",
-    "pug": "*"
+    "pug": "*",
+    "body-parser": "~1.15.1",
+    "hbs": "*"
   }
 }

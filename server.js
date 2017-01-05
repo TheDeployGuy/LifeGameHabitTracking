@@ -9,13 +9,13 @@ var bodyParser = require('body-parser');
 //Load the application
 //var statusEngine = require('./status');
 //what port do we want our application to run
-const PORT = 8080;
+const PORT = 5656;
 //Setup express object
 const app = express();
 
 //Set out view engine extension by default it uses templating engine (.hbs in handlevars case)
-app.set('view engine','html');
-app.engine('html', hbs.__express);
+app.engine('html', require('ejs').renderFile);
+app.set('view engine', 'html');
 
 var router = express.Router();
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -30,7 +30,7 @@ router.use(function(req, rest, next){
    next();
 });
 
-// This is our default route as stated above i left this as / so i could get experience using full urls 
+// This is our default route as stated above i left this as / so i could get experience using full urls
 router.get('/', function(req,res){
    //res.sendFile('index')
    res.render('index',{title:"Home"});
