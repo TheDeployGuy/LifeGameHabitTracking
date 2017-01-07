@@ -8,6 +8,17 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
+var flash = require('connect-flash');
+var session = require('express-session');
+
+var configDB = require('./config/database.js');
+// TODO: Install mongo on my machine so the connect works
+//mongoose.connect(configDB.url);
+
 var app = express();
 
 // view engine setup
@@ -23,8 +34,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// TODO: Find a better place to put this and not checked into GitHub
+app.use(session({ secret: 'thisisgoingtochange!!!' }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
 app.use('/', index);
 app.use('/users', users);
+
+require('./config/passport')(passport);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
