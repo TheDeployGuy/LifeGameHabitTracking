@@ -1,16 +1,17 @@
 {
-  "name": "life_habit_tracking_website",
-  "version": "1.0.0",
-  "description": "Game of Life Habit Tracking",
-  "main": "server.js",
+  "name": "lifegamehabittrackingstructured",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "node server.js"
+    "start": "node ./bin/www"
   },
   "dependencies": {
-    "connect": "*",
-    "express": "^4.13.4",
-    "pug": "*",
-    "body-parser": "~1.15.1",
-    "hbs": "*"
+    "body-parser": "~1.15.2",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.2.0",
+    "ejs": "~2.5.2",
+    "express": "~4.14.0",
+    "morgan": "~1.7.0",
+    "serve-favicon": "~2.3.0"
   }
 }

@@ -18,7 +18,7 @@ habitsList = [{
   goal: 0
 }];
 
-app1.controller('setup',function($scope,$rootScope){
+app1.controller('setup',function($scope,$rootScope,$http){
   $scope.totalHabits = [1,2,3];
   $scope.habitModels = [];
   $scope.diffModels = [];
@@ -26,13 +26,22 @@ app1.controller('setup',function($scope,$rootScope){
   console.log($scope.habitModels);
   $scope.displayStartMenu = true;
   $scope.createHabits = function(){
-    console.log($scope.habitModels);
     habitsList = [];
     habitsList.push(addHabit($scope.habitModels[0],$scope.diffModels[0],$scope.daysModels[0]))
     habitsList.push(addHabit($scope.habitModels[1],$scope.diffModels[1],$scope.daysModels[1]))
     habitsList.push(addHabit($scope.habitModels[2],$scope.diffModels[2],$scope.daysModels[2]))
     displayTable = true;
     $scope.displayStartMenu = false;
+
+    $http({
+      method: 'POST',
+      url: '/saveHabits',
+      data: angular.toJson(habitsList),
+      headers: {'Content-type': 'application/json'}
+    }).then(function successCallback(response){
+    }, function errorCallback(response){;
+
+    });
   }
 
   function addHabit(habit,difficulty,daysAWeek){
