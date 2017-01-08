@@ -1,8 +1,8 @@
-var app1 = angular.module('app1',['ngMessages']);
+var app1 = angular.module('app1',['ngMessages','ngCookies']);
 
 
-displayTable = false;
 displayStartMenu = true;
+hasCompletedStartMenu = false;
 
 habitsList = [{
   habit: 'Default',
@@ -18,20 +18,19 @@ habitsList = [{
   goal: 0
 }];
 
-app1.controller('setup',function($scope,$rootScope,$http){
+app1.controller('setup',function($scope,$rootScope,$http,$cookies){
   $scope.totalHabits = [1,2,3];
   $scope.habitModels = [];
   $scope.diffModels = [];
   $scope.daysModels = [];
-  console.log($scope.habitModels);
-  $scope.displayStartMenu = true;
+  $scope.userHasNotVisited = true;
   $scope.createHabits = function(){
     habitsList = [];
     habitsList.push(addHabit($scope.habitModels[0],$scope.diffModels[0],$scope.daysModels[0]))
     habitsList.push(addHabit($scope.habitModels[1],$scope.diffModels[1],$scope.daysModels[1]))
     habitsList.push(addHabit($scope.habitModels[2],$scope.diffModels[2],$scope.daysModels[2]))
-    displayTable = true;
-    $scope.displayStartMenu = false;
+    $scope.userHasNotVisited = false;
+    hasCompletedStartMenu = true;
 
     $http({
       method: 'POST',
@@ -42,6 +41,11 @@ app1.controller('setup',function($scope,$rootScope,$http){
     }, function errorCallback(response){;
 
     });
+  }
+
+  if($cookies.getObject(1) != undefined){
+    $scope.userHasNotVisited = false;
+    hasCompletedStartMenu = true;
   }
 
   function addHabit(habit,difficulty,daysAWeek){
@@ -58,17 +62,19 @@ app1.controller('parent',function($scope){
   var initialIncrement = 0;
   $scope.weeksPlayingGame = [];
   $scope.currentSelected = 0;
+  currentNum = 1;
   var maxNumberOfWeeks = 36;
   // Fill array with values from 0 -> maxNumberOfWeeks
   $scope.weekOptions = Array.apply(null, {length: maxNumberOfWeeks}).map(Number.call, Number)//new Array(maxNumberOfWeeks);
 
   $scope.incrementWeek = function(){
     $('#intro').hide();
-    $scope.weeksPlayingGame.push(1);
+    $scope.weeksPlayingGame.push(currentNum++);
   }
 
   $scope.decrementWeek = function(){
     $scope.weeksPlayingGame.pop();
+    currentNum--;
 
   }
 
@@ -80,41 +86,49 @@ app1.controller('parent',function($scope){
     $scope.weeksPlayingGame = amountOfTablesToDisplay;
   }
 
-  $scope.isVisible = function(){
-    return displayTable;
+  $scope.display = function(){
+    return hasCompletedStartMenu;
   }
 });
 // Example of dependency injection, angularjs sees that we need scope so it injects it
-app1.controller('gameCtrl', function($scope, $filter){
+app1.controller('gameCtrl', function($scope, $filter,$cookies){
     $scope.daysOfWeek = ['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'];
-    $scope.listOfHabits = [
-      {
-        habit: habitsList[0].habit,
-        isDone: [false,false,false,false,false],
-        goal: habitsList[0].goal,
-        current: 0,
-        difficulty: habitsList[0].difficulty,
-        color: ''
-      },
-      {
-        habit: habitsList[1].habit,
-        isDone: [false,false,false,false,false],
-        goal: habitsList[1].goal,
-        current: 0,
-        difficulty: habitsList[1].difficulty,
-        color: ''
-      },
-      {
-        habit: habitsList[2].habit,
-        isDone: [false,false,false,false,false],
-        goal: habitsList[2].goal,
-        current: 0,
-        difficulty: habitsList[2].difficulty,
-        color: ''
-      }
-    ];
 
-    $scope.changeState = function(rowIndex){
+    currentController = $scope.weeksPlayingGame.length;
+    if ($cookies.getObject(currentController) != undefined){
+      $scope.listOfHabits = [$cookies.getObject(currentController)[0],
+      $cookies.getObject(currentController)[1],$cookies.getObject(currentController)[2]];
+    }
+    else{
+      // need to change the default habits so that when they add a new week that is not in cookies default does show up
+      $scope.listOfHabits = [
+        {
+          habit: habitsList[0].habit,
+          isDone: [false,false,false,false,false],
+          goal: habitsList[0].goal,
+          current: 0,
+          difficulty: habitsList[0].difficulty,
+          color: ''
+        },
+        {
+          habit: habitsList[1].habit,
+          isDone: [false,false,false,false,false],
+          goal: habitsList[1].goal,
+          current: 0,
+          difficulty: habitsList[1].difficulty,
+          color: ''
+        },
+        {
+          habit: habitsList[2].habit,
+          isDone: [false,false,false,false,false],
+          goal: habitsList[2].goal,
+          current: 0,
+          difficulty: habitsList[2].difficulty,
+          color: ''
+        }
+      ];
+  }
+    $scope.changeState = function(rowIndex,week){
       var completedDays = $filter("filter")($scope.listOfHabits[rowIndex].isDone, true).length;
       var habit = $scope.listOfHabits[rowIndex];
 
@@ -131,5 +145,9 @@ app1.controller('gameCtrl', function($scope, $filter){
       else{
         habit.color = '';
       }
+
+    console.log(week);
+    $cookies.putObject(week,$scope.listOfHabits);
+    console.log($cookies.getObject(week));
     }
 });

@@ -56,7 +56,7 @@
         </div>
 
       <div class="row" id="startMenu">
-        <div ng-controller="setup" ng-show="displayStartMenu" class="col-md-offset-1 col-md-10 text-center">
+        <div ng-controller="setup" ng-show="userHasNotVisited" class="col-md-offset-1 col-md-10 text-center">
           <label style="">What 3 Habits do you want to track?</label>
           <hr>
           <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
@@ -92,13 +92,13 @@
       </div>
       <div class="row">
          <!-- We have a parent controller that controls how many times the table is repeated -->
-        <div ng-controller="parent" id="list" ng-show="isVisible()" class="ng-scope">
+        <div ng-controller="parent" id="list" ng-show="display()" class="ng-scope">
           <div class="col-md-1">
             <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
           </div>
           <div class="col-md-10">
             <p id="intro" class="text-center"> To get started lets add a week to track by clicking the + button</p>
-            <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" id="{{$index}}" class="table table-hover">
+            <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" id="{{$index}}"  class="table table-hover">
               <tr>
                 <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
                 <br/>
@@ -117,10 +117,11 @@
                    <!-- We set the background-color to the color for that specific row which will change green when max is reached -->
                 <td ng-repeat="i in daysOfWeek" class="done-{{row.isDone[$index]}}" ng-style="{'background-color': row.color}">
                   <!-- When the checkbox is changesState/clicked we pass in the index of the habit we are on(rowIndex) so the current total for that row can be set and to check if they have reached their weekly goal -->
-                  <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex)"/>
+                  <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex,week)"/>
                 </td>
                 <td>{{row.current}}/{{row.goal}}</td>
               </tr>
+
             </table>
             <hr/>
           </div>
@@ -138,10 +139,12 @@
    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
    <!-- load ngmessages -->
    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-cookies.min.js"></script>
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
    <!-- Load the JS Module -->
    <script src="javascripts/main.js"></script>
+   <script src="javascripts/cookies.js"</script>
 </footer>
 </html>
