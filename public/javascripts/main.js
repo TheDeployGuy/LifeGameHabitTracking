@@ -29,6 +29,8 @@ app1.controller('setup',function($scope,$rootScope,$http,$cookies){
     habitsList.push(addHabit($scope.habitModels[0],$scope.diffModels[0],$scope.daysModels[0]))
     habitsList.push(addHabit($scope.habitModels[1],$scope.diffModels[1],$scope.daysModels[1]))
     habitsList.push(addHabit($scope.habitModels[2],$scope.diffModels[2],$scope.daysModels[2]))
+
+    $cookies.putObject('defaultHabits',habitsList);
     $scope.userHasNotVisited = false;
     hasCompletedStartMenu = true;
 
@@ -100,6 +102,17 @@ app1.controller('gameCtrl', function($scope, $filter,$cookies){
       $cookies.getObject(currentController)[1],$cookies.getObject(currentController)[2]];
     }
     else{
+      if($cookies.getObject('defaultHabits')){
+        habitsList[0].habit = $cookies.getObject('defaultHabits')[0].habit;
+        habitsList[0].goal = $cookies.getObject('defaultHabits')[0].goal;
+        habitsList[0].difficulty = $cookies.getObject('defaultHabits')[0].difficulty;
+        habitsList[1].habit = $cookies.getObject('defaultHabits')[1].habit;
+        habitsList[1].goal = $cookies.getObject('defaultHabits')[1].goal;
+        habitsList[1].difficulty = $cookies.getObject('defaultHabits')[1].difficulty;
+        habitsList[2].habit = $cookies.getObject('defaultHabits')[2].habit;
+        habitsList[2].goal = $cookies.getObject('defaultHabits')[2].goal;
+        habitsList[2].difficulty = $cookies.getObject('defaultHabits')[2].difficulty;
+      }
       // need to change the default habits so that when they add a new week that is not in cookies default does show up
       $scope.listOfHabits = [
         {
