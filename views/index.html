@@ -92,7 +92,7 @@
       </div>
       <div class="row">
          <!-- We have a parent controller that controls how many times the table is repeated -->
-        <div ng-controller="parent" id="list" ng-show="display()" class="ng-scope">
+        <div ng-controller="parent" id="list" ng-show="hasEnteredHabits()" class="ng-scope">
           <div class="col-md-1">
             <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
           </div>
