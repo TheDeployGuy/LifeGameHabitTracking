@@ -1,6 +1,7 @@
 var app1 = angular.module('app1',['ngMessages','ngCookies']);
 
 hasCompletedStartMenu = false;
+hasCompletedIntroduction = false;
 habitsList = [{
   habit: 'Default',
   difficulty: 0,
@@ -15,12 +16,32 @@ habitsList = [{
   goal: 0
 }];
 
-app1.controller('setup',function($scope,$rootScope,$http,$cookies){
+app1.controller('introduction', function($scope,$cookies){
+
+  if($cookies.getObject('defaultHabits') != undefined){
+    hasCompletedIntroduction = true;
+  }
+
+  // TODO: Find a more angular way to do this
+  $scope.hasCompletedIntroduction = function(){
+   return hasCompletedIntroduction;
+  }
+  $scope.completeIntro = function(){
+    hasCompletedIntroduction = true;
+  }
+});
+
+
+
+app1.controller('setup',function($scope,$rootScope,$cookies){
   $scope.totalHabits = [1,2,3];
   $scope.habitModels = [];
   $scope.diffModels = [];
   $scope.daysModels = [];
   $scope.userHasNotVisited = true;
+  $scope.hasCompletedIntroduction = function(){
+   return hasCompletedIntroduction;
+  }
 
   if($cookies.getObject('defaultHabits') != undefined){
     $scope.userHasNotVisited = false;
@@ -69,6 +90,7 @@ app1.controller('parent',function($scope,$cookies){
     currentNum--;
   }
 
+// TODO: Find a more angular way to do this
   $scope.hasEnteredHabits = function(){
     return hasCompletedStartMenu;
   }
@@ -105,7 +127,7 @@ app1.controller('gameCtrl', function($scope, $filter, $cookies){
         });
       }
     }
-    
+
     $scope.changeState = function(rowIndex,week){
       var completedDays = $filter("filter")($scope.listOfHabits[rowIndex].isDone, true).length;
       var habit = $scope.listOfHabits[rowIndex];

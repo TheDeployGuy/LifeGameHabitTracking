@@ -31,15 +31,7 @@
                       <a class="page-scroll" href="#page-top"></a>
                   </li>
                   <li>
-                      <a class="page-scroll" href="#about">About</a>
-                  </li>
-              </ul>
-              <ul class="nav navbar-nav navbar-right">
-                  <li>
-                      <a class="page-scroll" href="#login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
-                  </li>
-                  <li>
-                      <a class="page-scroll" href="#signup"><span class="glyphicon glyphicon-user"></span> Signup</a>
+                      <!-- Menu items here if needed -->
                   </li>
               </ul>
           </div>
@@ -55,8 +47,34 @@
           <h3 class="title text-center col-md-offset-1 col-md-10">Game of Life</h3>
         </div>
 
+
+    <div ng-controller="introduction" ng-show="!hasCompletedIntroduction()" id="introduction">
+      <div class="row">
+          <div class="col-md-offset-4 col-md-7">
+            <p>Welcome this site uses The Game of Life System for Tracking and Building Habits</p>
+            <p>This website was inspired by a Lifehacker article <a href="http://lifehacker.com/the-game-of-life-system-tracks-and-changes-your-habit-1789488258">here</a>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-md-offset-4 col-md-7">
+          <p>So what is "The Game of Life System" method?</p>
+          <p>It's a very simple grid system that is used to track your habits on a weekly basis. So how does it work?</p>
+            <ol>
+              <li>It starts by having you identify three good habits you want to build</li>
+              <li>You then assign each habit a difficulty rating from 1-5. So how hard is this habit for you to do the harder an activity is the higher the rating</li>
+              <li>You then pick how many days a week you want to do this habit. We then multiply the difficulty rating * days a week to get your weekly target</li>
+              <li>Everytime you do the habit you tick the box for the that day. When you reach your weekly goal the row will go green</li>
+            </ol>
+        </div>
+        </div>
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 text-center">
+          <a class="btn btn-primary buttons" ng-click="completeIntro()">Ready!</a>
+        </div>
+      </div>
+      </div>
       <div class="row" id="startMenu">
-        <div ng-controller="setup" ng-show="userHasNotVisited" class="col-md-offset-1 col-md-10 text-center">
+        <div ng-controller="setup" ng-show="userHasNotVisited && hasCompletedIntroduction()" class="col-md-offset-1 col-md-10 text-center">
           <label style="">What 3 Habits do you want to track?</label>
           <hr>
           <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
@@ -90,6 +108,7 @@
         </form>
       </div>
       </div>
+
       <div class="row">
          <!-- We have a parent controller that controls how many times the table is repeated -->
         <div ng-controller="parent" id="list" ng-show="hasEnteredHabits()" class="ng-scope">

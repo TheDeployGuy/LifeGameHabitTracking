@@ -33,6 +33,10 @@ table{
   list-style-type: none;
 }
 
+#introduction {
+  font-size: medium;
+}
+
 .buttons {
 
 }
