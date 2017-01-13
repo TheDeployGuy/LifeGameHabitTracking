@@ -94,6 +94,13 @@ app1.controller('parent',function($scope,$cookies){
   $scope.hasEnteredHabits = function(){
     return hasCompletedStartMenu;
   }
+
+  $scope.resetHabits = function(){
+    $cookies.remove("defaultHabits");
+    $cookies.remove("totalWeeksTracked");
+    for(var i = 0;i<$scope.weeksPlayingGame.length;i++)
+      $cookies.remove($scope.weeksPlayingGame[i]);
+  }
 });
 
 var counter = 1;

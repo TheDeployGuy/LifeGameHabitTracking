@@ -50,13 +50,13 @@
 
     <div ng-controller="introduction" ng-show="!hasCompletedIntroduction()" id="introduction">
       <div class="row">
-          <div class="col-md-offset-4 col-md-7">
+          <div class="col-md-offset-1 col-md-10 text-center">
             <p>Welcome this site uses The Game of Life System for Tracking and Building Habits</p>
             <p>This website was inspired by a Lifehacker article <a href="http://lifehacker.com/the-game-of-life-system-tracks-and-changes-your-habit-1789488258">here</a>
           </div>
       </div>
       <div class="row">
-        <div class="col-md-offset-4 col-md-7">
+        <div class="col-md-offset-3 col-md-6">
           <p>So what is "The Game of Life System" method?</p>
           <p>It's a very simple grid system that is used to track your habits on a weekly basis. So how does it work?</p>
             <ol>
@@ -65,6 +65,9 @@
               <li>You then pick how many days a week you want to do this habit. We then multiply the difficulty rating * days a week to get your weekly target</li>
               <li>Everytime you do the habit you tick the box for the that day. When you reach your weekly goal the row will go green</li>
             </ol>
+          <p>Note: This site uses cookies if you don't know what they are I will keep your taught's clean and just say go eat some cookies.</p>
+          <p>If you need to reset your progress or you want to track new habits press the reset button on your habit tracking screen. THIS WILL REMOVE ALL PROGRESS.
+          In the future I might add saving your progress of your old habits or giving you the option to change your habits.</p>
         </div>
         </div>
       <div class="row">
@@ -108,10 +111,9 @@
         </form>
       </div>
       </div>
-
-      <div class="row">
          <!-- We have a parent controller that controls how many times the table is repeated -->
         <div ng-controller="parent" id="list" ng-show="hasEnteredHabits()" class="ng-scope">
+          <div class="row">
           <div class="col-md-1">
             <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
           </div>
@@ -146,6 +148,11 @@
           </div>
           <div class="col-md-1">
             <a class="btn btn-primary buttons" ng-click="incrementWeek()">+</a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-offset-1 col-md-10 text-center">
+            <a class="btn btn-primary buttons" ng-click="resetHabits()">Reset</a>
           </div>
         </div>
       </div>
