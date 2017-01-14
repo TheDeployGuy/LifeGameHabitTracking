@@ -67,7 +67,7 @@ app1.controller('setup',function($scope,$rootScope,$cookies){
   }
 });
 
-app1.controller('parent',function($scope,$cookies){
+app1.controller('parent',function($scope,$cookies,$window){
   var initialIncrement = 0;
   $scope.weeksPlayingGame = [];
   currentNum = 1;
@@ -100,6 +100,8 @@ app1.controller('parent',function($scope,$cookies){
     $cookies.remove("totalWeeksTracked");
     for(var i = 0;i<$scope.weeksPlayingGame.length;i++)
       $cookies.remove($scope.weeksPlayingGame[i]);
+
+    $window.location.reload();
   }
 });
 

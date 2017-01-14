@@ -1,176 +1,178 @@
 <!-- Used to compile and work with angular js -->
 <html ng-app="app1" ng-cloak>
 
-<head>
-  <title> AngularJS: Game of Life </title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-  <link rel="stylesheet" href="stylesheets/main.css"/>
-</head>
-<body>
+  <head>
+    <title> AngularJS: Game of Life </title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="stylesheets/main.css"/>
+  </head>
+  <body>
 
-  <!-- Navigation -->
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-          <div class="navbar-header page-scroll">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand page-scroll" href="#page-top">Game of Life - Way to master your Habits</a>
-          </div>
-
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse navbar-ex1-collapse">
-              <ul class="nav navbar-nav">
-                  <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
-                  <li class="hidden">
-                      <a class="page-scroll" href="#page-top"></a>
-                  </li>
-                  <li>
-                      <!-- Menu items here if needed -->
-                  </li>
-              </ul>
-          </div>
-          <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container -->
-  </nav>
-
-  <!-- We are telling Ajs that this is a view! -->
-  <div class="container">
-    <div class="centerme">
-        <div class="row">
-          <h3 class="title text-center col-md-offset-1 col-md-10">Game of Life</h3>
-        </div>
-
-
-    <div ng-controller="introduction" ng-show="!hasCompletedIntroduction()" id="introduction">
-      <div class="row">
-          <div class="col-md-offset-1 col-md-10 text-center">
-            <p>Welcome this site uses The Game of Life System for Tracking and Building Habits</p>
-            <p>This website was inspired by a Lifehacker article <a href="http://lifehacker.com/the-game-of-life-system-tracks-and-changes-your-habit-1789488258">here</a>
-          </div>
-      </div>
-      <div class="row">
-        <div class="col-md-offset-3 col-md-6">
-          <p>So what is "The Game of Life System" method?</p>
-          <p>It's a very simple grid system that is used to track your habits on a weekly basis. So how does it work?</p>
-            <ol>
-              <li>It starts by having you identify three good habits you want to build</li>
-              <li>You then assign each habit a difficulty rating from 1-5. So how hard is this habit for you to do the harder an activity is the higher the rating</li>
-              <li>You then pick how many days a week you want to do this habit. We then multiply the difficulty rating * days a week to get your weekly target</li>
-              <li>Everytime you do the habit you tick the box for the that day. When you reach your weekly goal the row will go green</li>
-            </ol>
-          <p>Note: This site uses cookies if you don't know what they are I will keep your taught's clean and just say go eat some cookies.</p>
-          <p>If you need to reset your progress or you want to track new habits press the reset button on your habit tracking screen. THIS WILL REMOVE ALL PROGRESS.
-          In the future I might add saving your progress of your old habits or giving you the option to change your habits.</p>
-        </div>
-        </div>
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 text-center">
-          <a class="btn btn-primary buttons" ng-click="completeIntro()">Ready!</a>
-        </div>
-      </div>
-      </div>
-      <div class="row" id="startMenu">
-        <div ng-controller="setup" ng-show="userHasNotVisited && hasCompletedIntroduction()" class="col-md-offset-1 col-md-10 text-center">
-          <label style="">What 3 Habits do you want to track?</label>
-          <hr>
-          <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
-          <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
-            <ul>
-              <li ng-repeat="val in totalHabits">
-                <label>Habit {{val}}</label>
-                <input type="text" name="habit{{val}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{val}}" required>
-                <input type="number" name="diff{{val}}"  ng-model="diffModels[$index]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
-                <input type="number" name="days{{val}}" ng-model="daysModels[$index]" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
-                <div ng-messages="habitForm['habit' + val].$error" ng-if="habitForm['habit' + val].$touched || habitForm.$submitted">
-                  <p ng-message="required">You must enter a {{val}} Habit</p>
-                </div>
-                <div ng-messages="habitForm['diff' + val].$error" ng-if="habitForm['diff' + val].$touched || habitForm.$submitted">
-                  <p ng-message="required">You must enter a habit difficulty</p>
-                  <p ng-message="min">Min Habit difficulty is 1</p>
-                  <p ng-message="max">Max Habit difficulty is 5</p>
-                </div>
-                <div ng-messages="habitForm['days' + val].$error" ng-if="habitForm['days' + val].$touched || habitForm.$submitted">
-                  <p ng-message="required">You must enter amount of days you want to track habit</p>
-                  <p ng-message="min">Min Days to track weekly is 1</p>
-                  <p ng-message="max">Max Days to track weekly is 7</p>
-                </div>
-              <hr/>
-              </li>
-            </ul>
-            <div class="form-group">
-              <button class="btn btn-success" type="submit">Submit</button>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top">Game of Life - Way to master your Habits</a>
             </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a class="page-scroll" href="#page-top"></a>
+                    </li>
+                    <li>
+                        <!-- Menu items here if needed -->
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
-        </form>
-      </div>
-      </div>
-         <!-- We have a parent controller that controls how many times the table is repeated -->
+        <!-- /.container -->
+    </nav>
+
+    <!-- We are telling Ajs that this is a view! -->
+    <div class="container">
+      <div class="centerme">
+          <div class="row">
+            <h3 class="title text-center col-md-offset-1 col-md-10">Game of Life</h3>
+          </div>
+
+        <div ng-controller="introduction" ng-show="!hasCompletedIntroduction()" id="introduction">
+          <div class="row">
+              <div class="col-md-offset-1 col-md-10 text-center">
+                <p>Welcome this site uses The Game of Life System for Tracking and Building Habits</p>
+                <p>This website was inspired by a Lifehacker article <a href="http://lifehacker.com/the-game-of-life-system-tracks-and-changes-your-habit-1789488258">here</a>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-3 col-md-6">
+              <p>So what is "The Game of Life System" method?</p>
+              <p>It's a very simple grid system that is used to track your habits on a weekly basis. So how does it work?</p>
+                <ol>
+                  <li>It starts by having you identify three good habits you want to build</li>
+                  <li>You then assign each habit a difficulty rating from 1-5. So how hard is this habit for you to do the harder an activity is the higher the rating</li>
+                  <li>You then pick how many days a week you want to do this habit. We then multiply the difficulty rating * days a week to get your weekly target</li>
+                  <li>Everytime you do the habit you tick the box for the that day. When you reach your weekly goal the row will go green</li>
+                </ol>
+              <p>Note: This site uses cookies if you don't know what they are I will keep your taught's clean and just say go eat some cookies.</p>
+              <p>If you need to reset your progress or you want to track new habits press the reset button on your habit tracking screen. THIS WILL REMOVE ALL PROGRESS.
+              In the future I might add saving your progress of your old habits or giving you the option to change your habits.</p>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-offset-1 col-md-10 text-center">
+              <a class="btn btn-primary buttons" ng-click="completeIntro()">Ready!</a>
+            </div>
+          </div>
+        </div>
+
+        <div ng-controller="setup" ng-show="userHasNotVisited && hasCompletedIntroduction()">
+          <div class="row" id="startMenu">
+            <div class="col-md-offset-1 col-md-10 text-center">
+              <label style="">What 3 Habits do you want to track?</label>
+              <hr>
+              <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
+                <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
+                  <ul>
+                    <li ng-repeat="val in totalHabits">
+                      <label>Habit {{val}}</label>
+                      <input type="text" name="habit{{val}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{val}}" required>
+                      <input type="number" name="diff{{val}}"  ng-model="diffModels[$index]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
+                      <input type="number" name="days{{val}}" ng-model="daysModels[$index]" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
+                      <div ng-messages="habitForm['habit' + val].$error" ng-if="habitForm['habit' + val].$touched || habitForm.$submitted">
+                      <p ng-message="required">You must enter a {{val}} Habit</p>
+                      </div>
+                      <div ng-messages="habitForm['diff' + val].$error" ng-if="habitForm['diff' + val].$touched || habitForm.$submitted">
+                        <p ng-message="required">You must enter a habit difficulty</p>
+                        <p ng-message="min">Min Habit difficulty is 1</p>
+                        <p ng-message="max">Max Habit difficulty is 5</p>
+                      </div>
+                      <div ng-messages="habitForm['days' + val].$error" ng-if="habitForm['days' + val].$touched || habitForm.$submitted">
+                        <p ng-message="required">You must enter amount of days you want to track habit</p>
+                        <p ng-message="min">Min Days to track weekly is 1</p>
+                        <p ng-message="max">Max Days to track weekly is 7</p>
+                      </div>
+                      <hr/>
+                    </li>
+                  </ul>
+                  <div class="form-group">
+                    <button class="btn btn-success" type="submit">Submit</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- We have a parent controller that controls how many times the table is repeated -->
         <div ng-controller="parent" id="list" ng-show="hasEnteredHabits()" class="ng-scope">
           <div class="row">
-          <div class="col-md-1">
-            <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
+            <div class="col-md-1">
+              <a class="btn btn-primary buttons" ng-click="decrementWeek()">-</a>
+            </div>
+            <div class="col-md-10">
+              <p id="intro" class="text-center"> To get started lets add a week to track by clicking the + button</p>
+              <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" id="{{$index}}"  class="table table-hover">
+                <tr>
+                  <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
+                  <br/>
+                </tr>
+                <tr>
+                   <th>Habit</th>
+                     <!-- For each day in our daysOfWeek display a table heading -->
+                   <th ng-repeat="x in daysOfWeek">{{x}}</th>
+                   <th>Total</th>
+                </tr>
+                <!-- For habit in our listOfHabits display a row -->
+                <tr class="habitRow" ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
+                  <td>{{row.habit}}</td>
+                     <!-- For each day in our daysOfWeek display a td for it, which gives us a habit row with daysOfWeek columns -->
+                     <!-- class is used to with the isDone for each day of the week to set the color of the table entry-->
+                     <!-- We set the background-color to the color for that specific row which will change green when max is reached -->
+                  <td ng-repeat="i in daysOfWeek" class="done-{{row.isDone[$index]}}" ng-style="{'background-color': row.color}">
+                    <!-- When the checkbox is changesState/clicked we pass in the index of the habit we are on(rowIndex) so the current total for that row can be set and to check if they have reached their weekly goal -->
+                    <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex,week)"/>
+                  </td>
+                  <td>{{row.current}}/{{row.goal}}</td>
+                </tr>
+              </table>
+              <hr/>
+            </div>
+            <div class="col-md-1">
+              <a class="btn btn-primary buttons" ng-click="incrementWeek()">+</a>
+            </div>
           </div>
-          <div class="col-md-10">
-            <p id="intro" class="text-center"> To get started lets add a week to track by clicking the + button</p>
-            <table ng-controller="gameCtrl" ng-repeat="week in weeksPlayingGame track by $index" id="{{$index}}"  class="table table-hover">
-              <tr>
-                <th scope="row" class="text-center" colspan="{{daysOfWeek.length+2}}">Week: {{$index+1}}</th>
-                <br/>
-              </tr>
-              <tr>
-                 <th>Habit</th>
-                   <!-- For each day in our daysOfWeek display a table heading -->
-                 <th ng-repeat="x in daysOfWeek">{{x}}</th>
-                 <th>Total</th>
-              </tr>
-              <!-- For habit in our listOfHabits display a row -->
-              <tr class="habitRow" ng-repeat = "row in listOfHabits" ng-init="rowIndex = $index">
-                <td>{{row.habit}}</td>
-                   <!-- For each day in our daysOfWeek display a td for it, which gives us a habit row with daysOfWeek columns -->
-                   <!-- class is used to with the isDone for each day of the week to set the color of the table entry-->
-                   <!-- We set the background-color to the color for that specific row which will change green when max is reached -->
-                <td ng-repeat="i in daysOfWeek" class="done-{{row.isDone[$index]}}" ng-style="{'background-color': row.color}">
-                  <!-- When the checkbox is changesState/clicked we pass in the index of the habit we are on(rowIndex) so the current total for that row can be set and to check if they have reached their weekly goal -->
-                  <input type="checkbox" ng-model="row.isDone[$index]" ng-click="changeState(rowIndex,week)"/>
-                </td>
-                <td>{{row.current}}/{{row.goal}}</td>
-              </tr>
-
-            </table>
-            <hr/>
-          </div>
-          <div class="col-md-1">
-            <a class="btn btn-primary buttons" ng-click="incrementWeek()">+</a>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-offset-1 col-md-10 text-center">
-            <a class="btn btn-primary buttons" ng-click="resetHabits()">Reset</a>
+          <div class="row">
+            <div class="col-md-offset-1 col-md-10 text-center">
+              <!-- Add pop up warning to tell them they will lose all info -->
+              <a class="btn btn-primary buttons" ng-click="resetHabits()">Reset</a>
+            </div>
           </div>
         </div>
       </div>
-  </div>
-</div>
-
-</body>
-<footer>
-  <!-- Load the AngularJS library -->
-   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
-   <!-- load ngmessages -->
-   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
-   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-cookies.min.js"></script>
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-   <!-- Load the JS Module -->
-   <script src="javascripts/main.js"></script>
-   <script src="javascripts/cookies.js"</script>
-</footer>
+    </div>
+  </body>
+  <footer>
+    <!-- Load the AngularJS library -->
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
+     <!-- load ngmessages -->
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-cookies.min.js"></script>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+     <!-- Load the JS Module -->
+     <script src="javascripts/main.js"></script>
+     <script src="javascripts/cookies.js"</script>
+  </footer>
 </html>
