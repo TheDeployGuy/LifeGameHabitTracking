@@ -56,17 +56,17 @@
           </div>
           <div class="row">
             <div class="col-md-offset-3 col-md-6">
-              <p>So what is "The Game of Life System" method?</p>
-              <p>It's a very simple grid system that is used to track your habits on a weekly basis. So how does it work?</p>
+              <p>So what is "The Game of Life System" for habit tracking?
+                <br/>
+                It's a very simple grid system that is used to track your habits on a weekly basis.
+              </p>
+              <p>So how does it work?</p>
                 <ol>
                   <li>It starts by having you identify three good habits you want to build</li>
                   <li>You then assign each habit a difficulty rating from 1-5. So how hard is this habit for you to do the harder an activity is the higher the rating</li>
-                  <li>You then pick how many days a week you want to do this habit. We then multiply the difficulty rating * days a week to get your weekly target</li>
+                  <li>You then pick how many days a week you want to do this habit. We then multiply the difficulty (rating * days) a week to get your weekly target</li>
                   <li>Everytime you do the habit you tick the box for the that day. When you reach your weekly goal the row will go green</li>
                 </ol>
-              <p>Note: This site uses cookies if you don't know what they are I will keep your taught's clean and just say go eat some cookies.</p>
-              <p>If you need to reset your progress or you want to track new habits press the reset button on your habit tracking screen. THIS WILL REMOVE ALL PROGRESS.
-              In the future I might add saving your progress of your old habits or giving you the option to change your habits.</p>
             </div>
           </div>
           <div class="row">
@@ -154,15 +154,35 @@
           </div>
           <div class="row">
             <div class="col-md-offset-1 col-md-10 text-center">
-              <!-- Add pop up warning to tell them they will lose all info -->
-              <a class="btn btn-primary buttons" ng-click="resetHabits()">Reset</a>
+              <a class="btn btn-danger buttons" href="#" data-toggle="modal" data-target="#confirm-delete">Reset Progress</a>
+              <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <p>Reset Habits</p>
+                          </div>
+                          <div class="modal-body">
+                              <p><strong>You are about to reset all of your habits</strong>, if this is done you cannot get your progress back.</p>
+                              <p>Are you sure?</p>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                              <a class="btn btn-danger btn-ok" ng-click="resetHabits()">Reset</a>
+                          </div>
+                      </div>
+                  </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </body>
-  <footer>
+  <div class="navbar navbar-default navbar-fixed-bottom">
+    <div class="container">
+        <p class="navbar-text pull-left">© 2017 - Site built by Jason Lloyd</p>
+        <p class="navbar-text pull-right"><a href="http://thedeployguy.com">Blog</a> | <a href="https://github.com/thedeployguy">Github</a></p>
+    </div>
     <!-- Load the AngularJS library -->
      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
      <!-- load ngmessages -->
@@ -174,5 +194,5 @@
      <!-- Load the JS Module -->
      <script src="javascripts/main.js"></script>
      <script src="javascripts/cookies.js"</script>
-  </footer>
+  </div>
 </html>
