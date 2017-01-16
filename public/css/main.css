@@ -2,11 +2,7 @@
   display: none;
 }
 
-body {
-  height: 100%;
-}
-
-.container {
+#startMenu .container {
   height: 100%;
   width: 100%;
   display: table;
@@ -33,10 +29,7 @@ table{
   list-style-type: none;
 }
 
-#introduction {
-  font-size: medium;
-}
-
-.buttons {
-
+#tutorial {
+  width: inherit;
+  height: inherit
 }

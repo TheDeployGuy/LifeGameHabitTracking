@@ -16,19 +16,16 @@ habitsList = [{
   goal: 0
 }];
 
-app1.controller('introduction', function($scope,$cookies){
+app1.controller('tutorial', function($scope,$cookies){
 
   if($cookies.getObject('defaultHabits') != undefined){
     hasCompletedIntroduction = true;
   }
 
   // TODO: Find a more angular way to do this
-  $scope.hasCompletedIntroduction = function(){
-   return hasCompletedIntroduction;
-  }
-  $scope.completeIntro = function(){
-    hasCompletedIntroduction = true;
-  }
+    $scope.hasEnteredHabits = function(){
+      return hasCompletedStartMenu;
+    }
 });
 
 
@@ -38,13 +35,11 @@ app1.controller('setup',function($scope,$rootScope,$cookies){
   $scope.habitModels = [];
   $scope.diffModels = [];
   $scope.daysModels = [];
-  $scope.userHasNotVisited = true;
   $scope.hasCompletedIntroduction = function(){
-   return hasCompletedIntroduction;
+   return true;
   }
 
   if($cookies.getObject('defaultHabits') != undefined){
-    $scope.userHasNotVisited = false;
     hasCompletedStartMenu = true;
   }
 
@@ -54,7 +49,6 @@ app1.controller('setup',function($scope,$rootScope,$cookies){
       habitsList.push(addHabit($scope.habitModels[i],$scope.diffModels[i],$scope.daysModels[i]))
 
     $cookies.putObject('defaultHabits',habitsList);
-    $scope.userHasNotVisited = false;
     hasCompletedStartMenu = true;
   }
 
@@ -65,6 +59,12 @@ app1.controller('setup',function($scope,$rootScope,$cookies){
       difficulty: difficulty,
     }
   }
+
+  // TODO: Find a more angular way to do this
+    $scope.hasEnteredHabits = function(){
+      return hasCompletedStartMenu;
+    }
+
 });
 
 app1.controller('parent',function($scope,$cookies,$window){
