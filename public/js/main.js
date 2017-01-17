@@ -16,6 +16,19 @@ habitsList = [{
   goal: 0
 }];
 
+
+app1.controller('navigation', function($scope,$cookies,$window){
+  $scope.resetHabits = function(){
+    $cookies.remove("defaultHabits");
+    $cookies.remove("totalWeeksTracked");
+    var cookies = $cookies.getAll();
+    angular.forEach(cookies, function (v, k) {
+        $cookies.remove(k);
+    });
+    $window.location.reload();
+  }
+});
+
 app1.controller('tutorial', function($scope,$cookies){
 
   if($cookies.getObject('defaultHabits') != undefined){
@@ -27,8 +40,6 @@ app1.controller('tutorial', function($scope,$cookies){
       return hasCompletedStartMenu;
     }
 });
-
-
 
 app1.controller('setup',function($scope,$rootScope,$cookies){
   $scope.totalHabits = [1,2,3];
@@ -50,6 +61,9 @@ app1.controller('setup',function($scope,$rootScope,$cookies){
 
     $cookies.putObject('defaultHabits',habitsList);
     hasCompletedStartMenu = true;
+
+    $('#aboutNav').hide();
+    $('#resetButton').css('display','block');
   }
 
   function addHabit(habit,difficulty,daysAWeek){
@@ -67,7 +81,7 @@ app1.controller('setup',function($scope,$rootScope,$cookies){
 
 });
 
-app1.controller('parent',function($scope,$cookies,$window){
+app1.controller('parent',function($scope,$cookies){
   var initialIncrement = 0;
   $scope.weeksPlayingGame = [];
   currentNum = 1;
@@ -76,6 +90,11 @@ app1.controller('parent',function($scope,$cookies,$window){
     $('#intro').hide();
     $cookies.putObject('totalWeeksTracked',currentNum);
     $scope.weeksPlayingGame.push(currentNum++);
+  }
+
+  if($cookies.getObject('defaultHabits') != undefined){
+    $('#aboutNav').hide();
+    $('#resetButton').css('display','block');
   }
 
   if($cookies.getObject('totalWeeksTracked') != undefined){
@@ -94,21 +113,11 @@ app1.controller('parent',function($scope,$cookies,$window){
   $scope.hasEnteredHabits = function(){
     return hasCompletedStartMenu;
   }
-
-  $scope.resetHabits = function(){
-    $cookies.remove("defaultHabits");
-    $cookies.remove("totalWeeksTracked");
-    for(var i = 0;i<$scope.weeksPlayingGame.length;i++)
-      $cookies.remove($scope.weeksPlayingGame[i]);
-
-    $window.location.reload();
-  }
 });
 
 var counter = 1;
 app1.controller('gameCtrl', function($scope, $filter, $cookies){
     $scope.daysOfWeek = ['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'];
-
     currentController = $scope.weeksPlayingGame.length;
 
     if ($cookies.getObject(counter) != undefined){

@@ -11,16 +11,14 @@
 
     <title>Game of Life Habit Tracking - Change your life</title>
 
-    <!-- Bootstrap Core CSS -->
-    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
     <!-- Custom Fonts -->
-    <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- <link href="vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+
     <link href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
-    <link rel="stylesheet" href="css/main.css"/>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/main.css"/>
     <!-- Theme CSS -->
     <link href="css/grayscale.min.css" rel="stylesheet">
 
@@ -48,19 +46,37 @@
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse" ng-controller="navigation">
                 <ul class="nav navbar-nav">
                     <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
                     <li class="hidden">
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#about">How it Works</a>
+                        <a class="page-scroll" href="#about" id="aboutNav">How it Works</a>
+                        <a href="#" id="resetButton" class="btn btn-danger buttons" style="display:none" data-toggle="modal" data-target="#confirm-delete">Reset Progress</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#startMenu">Start!</a>
                     </li>
                 </ul>
+                    <div class="modal" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <p>Reset Habits</p>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>You are about to reset all of your habits</strong>, if this is done you cannot get your progress back.</p>
+                                    <p>Are you sure?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <a class="btn btn-danger btn-ok" ng-click="resetHabits()">Reset</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
             </div>
             <!-- /.navbar-collapse -->
         </div>
@@ -115,15 +131,15 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
                     <h2>What 3 Habits do you want to track?</h2>
-                    <form name="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
+                    <form name="habitForm" id="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
                       <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
                         <ul>
                           <hr/>
                           <li ng-repeat="val in totalHabits">
-                            <label>Habit {{val}}</label>
+                            <label><h3>#{{val}}</h3></label>
                             <input type="text" name="habit{{val}}" ng-model="habitModels[$index]" placeholder="Enter Habit {{val}}" required>
                             <input type="number" name="diff{{val}}"  ng-model="diffModels[$index]" ng-max="5" ng-min="1" placeholder="Enter Habit difficulty" required>
-                            <input type="number" name="days{{val}}" ng-model="daysModels[$index]" ng-max="7" ng-min="1" placeholder="#Days to do this habit" required>
+                            <input type="number" name="days{{val}}" ng-model="daysModels[$index]" ng-max="7" ng-min="1" placeholder="#Days to do habit" required>
                             <div ng-messages="habitForm['habit' + val].$error" ng-if="habitForm['habit' + val].$touched || habitForm.$submitted">
                             <p ng-message="required">You must enter a {{val}} Habit</p>
                             </div>
@@ -185,33 +201,10 @@
                       <td>{{row.current}}/{{row.goal}}</td>
                     </tr>
                   </table>
-                  <hr/>
                 </div>
                 <div class="col-md-1">
                   <a class="btn btn-primary buttons" ng-click="incrementWeek()">+</a>
                 </div>
-            </div>
-            <div class="row">
-              <div class="col-md-offset-1 col-md-10 text-center">
-                <a class="btn btn-danger buttons" href="#" data-toggle="modal" data-target="#confirm-delete">Reset Progress</a>
-                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <p>Reset Habits</p>
-                            </div>
-                            <div class="modal-body">
-                                <p><strong>You are about to reset all of your habits</strong>, if this is done you cannot get your progress back.</p>
-                                <p>Are you sure?</p>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <a class="btn btn-danger btn-ok" ng-click="resetHabits()">Reset</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-              </div>
             </div>
         </div>
       </div>
@@ -220,28 +213,21 @@
 
     <footer>
         <div class="container text-center">
-            <p>Copyright &copy; Your Website 2016</p>
+            <p>Copyright &copy; Jason Lloyd 2016</p>
         </div>
         <!-- Load the AngularJS library -->
          <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular.min.js"></script>
          <!-- load ngmessages -->
          <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-messages.js"></script>
          <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.9/angular-cookies.min.js"></script>
-
          <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
          <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-
          <!-- Load the JS Module -->
          <script src="js/main.js"></script>
          <!-- <script src="js/cookies.js"</script> -->
-
         <!-- Plugin JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
-
-        <!-- Google Maps API Key - Use your own API key to enable the map feature. More information on the Google Maps API can be found at https://developers.google.com/maps/ -->
-        <!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRngKslUGJTlibkQ3FkfTxj3Xss1UlZDA&sensor=false"></script> -->
-
         <!-- Theme JavaScript -->
         <script src="js/grayscale.js"></script>
     </footer>

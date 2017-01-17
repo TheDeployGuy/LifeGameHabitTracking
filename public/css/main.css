@@ -17,6 +17,7 @@
 
 table, th, td {
   text-align: center;
+  color: white;
 }
 
 table{
@@ -32,4 +33,37 @@ table{
 #tutorial {
   width: inherit;
   height: inherit
+}
+
+#habitForm input {
+  color: black;
+}
+
+#confirm-delete {
+  color: black;
+}
+
+label {
+  padding-right: 20px;
+}
+
+/* do not group these rules */
+*::-webkit-input-placeholder {
+    color: #7f7f7f;
+}
+*:-moz-placeholder {
+    /* FF 4-18 */
+    color: #7f7f7f;
+}
+*::-moz-placeholder {
+    /* FF 19+ */
+    color: #7f7f7f;
+}
+*:-ms-input-placeholder {
+    /* IE 10+ */
+    color: #7f7f7f;
+}
+
+body.modal-open div.modal-backdrop {
+    z-index: 0;
 }
