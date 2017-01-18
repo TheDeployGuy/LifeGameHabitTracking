@@ -1,7 +1,6 @@
 var app1 = angular.module('app1',['ngMessages','ngCookies']);
 
 hasCompletedStartMenu = false;
-hasCompletedIntroduction = false;
 habitsList = [{
   habit: 'Default',
   difficulty: 0,
@@ -16,6 +15,12 @@ habitsList = [{
   goal: 0
 }];
 
+// I know this is a bad function name will refactor...
+function hideIntroMenuAndShowLoggedInMenu(){
+  $('#aboutNav').hide();
+  $('#resetButton').css('display','block');
+  $('#start').hide();
+}
 
 app1.controller('navigation', function($scope,$cookies,$window){
   $scope.resetHabits = function(){
@@ -30,27 +35,19 @@ app1.controller('navigation', function($scope,$cookies,$window){
 });
 
 app1.controller('tutorial', function($scope,$cookies){
-
-  if($cookies.getObject('defaultHabits') != undefined){
-    hasCompletedIntroduction = true;
-  }
-
   // TODO: Find a more angular way to do this
     $scope.hasEnteredHabits = function(){
       return hasCompletedStartMenu;
     }
 });
 
-app1.controller('setup',function($scope,$rootScope,$cookies){
+app1.controller('setup', function($scope,$rootScope,$cookies){
   $scope.totalHabits = [1,2,3];
   $scope.habitModels = [];
   $scope.diffModels = [];
   $scope.daysModels = [];
-  $scope.hasCompletedIntroduction = function(){
-   return true;
-  }
 
-  if($cookies.getObject('defaultHabits') != undefined){
+  if($cookies.getObject('defaultHabits')){
     hasCompletedStartMenu = true;
   }
 
@@ -62,8 +59,7 @@ app1.controller('setup',function($scope,$rootScope,$cookies){
     $cookies.putObject('defaultHabits',habitsList);
     hasCompletedStartMenu = true;
 
-    $('#aboutNav').hide();
-    $('#resetButton').css('display','block');
+    hideIntroMenuAndShowLoggedInMenu();
   }
 
   function addHabit(habit,difficulty,daysAWeek){
@@ -82,9 +78,12 @@ app1.controller('setup',function($scope,$rootScope,$cookies){
 });
 
 app1.controller('parent',function($scope,$cookies){
-  var initialIncrement = 0;
+  var currentNum = 1;
   $scope.weeksPlayingGame = [];
-  currentNum = 1;
+
+  if($cookies.getObject('defaultHabits')){
+    hideIntroMenuAndShowLoggedInMenu();
+  }
 
   $scope.incrementWeek = function(){
     $('#intro').hide();
@@ -92,21 +91,19 @@ app1.controller('parent',function($scope,$cookies){
     $scope.weeksPlayingGame.push(currentNum++);
   }
 
-  if($cookies.getObject('defaultHabits') != undefined){
-    $('#aboutNav').hide();
-    $('#resetButton').css('display','block');
+  $scope.decrementWeek = function(){
+    $scope.weeksPlayingGame.pop();
+    currentNum--;
+    currentWeek = parseInt($cookies.getObject('totalWeeksTracked')) - 1;
+    if(currentWeek >= 0)
+      $cookies.putObject('totalWeeksTracked',currentWeek);
   }
 
-  if($cookies.getObject('totalWeeksTracked') != undefined){
+  if($cookies.getObject('totalWeeksTracked')){
     var totalWeeksTracked = parseInt($cookies.getObject('totalWeeksTracked'));
     for(var i=0;i<totalWeeksTracked;i++){
       $scope.incrementWeek();
     }
-  }
-
-  $scope.decrementWeek = function(){
-    $scope.weeksPlayingGame.pop();
-    currentNum--;
   }
 
 // TODO: Find a more angular way to do this
@@ -120,7 +117,7 @@ app1.controller('gameCtrl', function($scope, $filter, $cookies){
     $scope.daysOfWeek = ['Mon','Tues','Wed','Thurs','Fri','Sat','Sun'];
     currentController = $scope.weeksPlayingGame.length;
 
-    if ($cookies.getObject(counter) != undefined){
+    if ($cookies.getObject(counter)){
       $scope.listOfHabits = [$cookies.getObject(counter)[0],
       $cookies.getObject(counter)[1],$cookies.getObject(counter)[2]];
     }
