@@ -20,7 +20,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="css/main.css"/>
     <!-- Theme CSS -->
-    <link href="css/grayscale.min.css" rel="stylesheet">
+    <link href="css/grayscale.css" rel="stylesheet">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -113,10 +113,10 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <h2>So how does it work?</h2>
-                <p>It starts by having you identify three good habits you want to build</p>
-                <p>You then assign each habit a difficulty rating from 1-5. So how hard is this habit for you to do the harder an activity is the higher the rating</p>
-                <p>You then pick how many days a week you want to do this habit. We then multiply the difficulty (rating * days) a week to get your weekly target</p>
-                <p>Everytime you do the habit you tick the box for the that day. When you reach your weekly goal the row will go green</p>
+                <p>It starts by having you identify 3 good habits you want to build</p>
+                <p>You then assign each habit a difficulty rating from 1-5, based on how hard the habit is for you to do. The harder a habit is to do the higher the rating</p>
+                <p>You then pick how many days a week you want to do each of the habits. We then multiply the (difficulty rating * days) to get your weekly target</p>
+                <p>Everyday you do the habit you tick the box for the that day. When you reach your weekly goal the row will go green</p>
                 <a href="#startMenu" class="btn btn-circle page-scroll">
                     <i class="fa fa-angle-double-down animated"></i>
                 </a>
@@ -131,7 +131,8 @@
           <div class="centerme">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2">
-                    <h2>What 3 Habits do you want to track?</h2>
+                    <h1>Ready?<h1>
+                    <h3>What 3 Habits do you want to track?</h3>
                     <form name="habitForm" id="habitForm"  ng-submit="habitForm.$valid && createHabits()" novalidate>
                       <div class="form-group" ng-class="{ 'has-error': habitForm.habit1.$touched && habitForm.habit1.$invalid }">
                         <ul>
@@ -158,7 +159,7 @@
                           </li>
                         </ul>
                         <div class="form-group">
-                          <button class="btn btn-success" type="submit">Submit</button>
+                          <button class="btn btn-success" type="submit">Lets Get Started!</button>
                         </div>
                       </div>
                     </form>
