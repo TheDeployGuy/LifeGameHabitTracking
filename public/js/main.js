@@ -15,6 +15,8 @@ habitsList = [{
   goal: 0
 }];
 
+// console.log($('.intro').css('background','url(../img/intro-bg3.jpg) no-repeat bottom center scroll'))
+
 // I know this is a bad function name will refactor...
 function hideIntroMenuAndShowLoggedInMenu(){
   $('#aboutNav').hide();
